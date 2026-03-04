@@ -34,6 +34,7 @@
     "cost": { "type": "string" },
     "tags": { "type": "array", "items": { "type": "string" } },
     "files_modified": { "type": "array", "items": { "type": "string" } },
-    "related_plan": { "type": "string" }
+    "related_plan": { "type": "string" },
+    "migrated": { "type": "boolean" }
   }
 }

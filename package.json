@@ -23,7 +23,9 @@
   "devDependencies": {
     "@stzhu/tsconfig": "^0.1.1",
     "@types/node": "^25.3.3",
-    "oxfmt": "^0.36.0"
+    "oxfmt": "^0.36.0",
+    "tsdown": "^0.20.3",
+    "tsx": "^4.21.0"
   },
   "engines": {
     "node": ">=25"

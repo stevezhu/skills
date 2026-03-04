@@ -1,6 +1,6 @@
 ---
-# log migrated from an external repository
 date: 2026-03-04T19:42:48Z
+migrated: true
 type: plan
 status: in-progress
 agent: geminicli

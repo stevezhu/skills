@@ -1,6 +1,6 @@
 ---
-# log migrated from an external repository
 date: 2026-03-04T20:42:57Z
+migrated: true
 type: activity
 status: complete
 agent: claudecode

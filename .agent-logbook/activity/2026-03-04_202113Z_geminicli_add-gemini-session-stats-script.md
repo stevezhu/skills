@@ -1,6 +1,6 @@
 ---
-# log migrated from an external repository
 date: 2026-03-04T20:21:13Z
+migrated: true
 type: activity
 status: success
 agent: geminicli
