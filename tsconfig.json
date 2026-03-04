@@ -1,3 +1,7 @@
 {
-  "extends": "@stzhu/tsconfig/tsconfig.base.json"
+  "extends": "@stzhu/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "module": "Node20",
+    "moduleResolution": "Node16"
+  }
 }
