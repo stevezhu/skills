@@ -131,11 +131,11 @@ Include a `## References` section at the bottom of any document where you consul
 external URLs (docs, GitHub issues, blog posts, RFCs, etc.). This makes it easy to
 trace where information came from and revisit sources in future sessions.
 
-Template files are in the `templates/` directory alongside this skill:
+Template files are in the `assets/` directory alongside this skill:
 
-| Template                | Use when                                                                                                                                                                                                      |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `templates/activity.md` | Finishing a task or session. Focus on "Work Performed" and "Outcome". **Before writing**, run the stats script to get `session_id`, `models`, and token counts. Paste the raw output into `## Session Stats`. |
-| `templates/research.md` | Evaluation phases. Include "Question", "Findings", and "Recommendation".                                                                                                                                      |
-| `templates/decision.md` | Choosing between multiple architectural or technical paths.                                                                                                                                                   |
-| `templates/plan.md`     | **BEFORE** starting complex work to align on scope and steps.                                                                                                                                                 |
+| Template             | Use when                                                                                                                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `assets/activity.md` | Finishing a task or session. Focus on "Work Performed" and "Outcome". **Before writing**, run the stats script to get `session_id`, `models`, and token counts. Paste the raw output into `## Session Stats`. |
+| `assets/research.md` | Evaluation phases. Include "Question", "Findings", and "Recommendation".                                                                                                                                      |
+| `assets/decision.md` | Choosing between multiple architectural or technical paths.                                                                                                                                                   |
+| `assets/plan.md`     | **BEFORE** starting complex work to align on scope and steps.                                                                                                                                                 |
