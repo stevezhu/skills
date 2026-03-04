@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { proposeCompletions } from '@stricli/core';
 
-import { app } from '../app';
-import { buildContext } from '../context';
+import { app } from '../app.js';
+import { buildContext } from '../context.js';
+
 const inputs = process.argv.slice(3);
 if (process.env['COMP_LINE']?.endsWith(' ')) {
   inputs.push('');
