@@ -1,0 +1,79 @@
+{
+  "expectations": [
+    {
+      "text": "A markdown file was created inside a 'decisions' subdirectory (not just in the outputs root)",
+      "passed": true,
+      "evidence": "metrics.json shows files_created includes '.agent-docs/decisions/2026-03-03_164230Z_claude-sonnet-4-6_lucia-to-clerk-auth-decision.md', confirming the file was created in the decisions subdirectory of the real project"
+    },
+    {
+      "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+      "passed": true,
+      "evidence": "Filename is '2026-03-03_164230Z_claude-sonnet-4-6_lucia-to-clerk-auth-decision.md', which matches the YYYY-MM-DD_HHMMSSZ format (2026-03-03_164230Z)"
+    },
+    {
+      "text": "The frontmatter contains 'type: decision'",
+      "passed": true,
+      "evidence": "Frontmatter line 3: 'type: decision'"
+    },
+    {
+      "text": "The document has a section for options considered, covering both Lucia and Clerk",
+      "passed": true,
+      "evidence": "Document contains '## Options Considered' section with '### Option 1: Continue with Lucia Auth' and '### Option 2: Switch to Clerk' subsections"
+    },
+    {
+      "text": "The document has a decision section clearly naming Clerk as the chosen option",
+      "passed": true,
+      "evidence": "Document contains '## Decision' section with 'The project will switch to Clerk.' as the opening statement"
+    },
+    {
+      "text": "The document has a consequences or trade-offs section",
+      "passed": true,
+      "evidence": "Document contains '## Consequences' section with subsections '**Trade-offs accepted:**', '**Risks:**', and '**Triggers for revisiting this decision:**'"
+    },
+    {
+      "text": "The document mentions session management or social logins as advantages of Clerk",
+      "passed": true,
+      "evidence": "Under Option 2 pros: 'Session management handled out of the box (token rotation, multi-session, device management)' and 'Social logins (Google, GitHub, Apple, etc.) provided without per-provider manual integration'. Also repeated in the Decision section."
+    },
+    {
+      "text": "The document mentions Lucia requiring too much manual work",
+      "passed": true,
+      "evidence": "Decision section states: 'The primary driver is that Lucia required too much manual work — particularly around session management and social login integrations.'"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Read": 1,
+      "Write": 3,
+      "Bash": 2,
+      "Edit": 0,
+      "Glob": 0,
+      "Grep": 0
+    },
+    "total_tool_calls": 6,
+    "total_steps": 4,
+    "files_created": [
+      ".agent-docs/decisions/2026-03-03_164230Z_claude-sonnet-4-6_lucia-to-clerk-auth-decision.md",
+      ".rulesync/skills/agent-logbook-workspace/iteration-1/lucia-to-clerk-decision/with_skill/outputs/2026-03-03_164230Z_claude-sonnet-4-6_lucia-to-clerk-auth-decision.md",
+      ".rulesync/skills/agent-logbook-workspace/iteration-1/lucia-to-clerk-decision/with_skill/outputs/metrics.json"
+    ],
+    "errors_encountered": 0,
+    "output_chars": 3693,
+    "transcript_chars": 7500
+  },
+  "timing": {},
+  "claims": [],
+  "eval_feedback": {
+    "suggestions": [
+      "Consider adding a timing.json file to the eval run directory so execution duration metrics can be captured",
+      "The eval prompt directly stated the advantages of Clerk and the problems with Lucia, so the skill had clear guidance; future evals could test with less explicit prompts to verify the skill's ability to infer and structure content more independently"
+    ],
+    "overall": "The skill performed perfectly on all 8 assertions with a 100% pass rate. The document was correctly placed in the decisions subdirectory, had the proper filename format with UTC timestamp, correct frontmatter, well-structured options section covering both Lucia and Clerk, a clear decision naming Clerk, a consequences/trade-offs section, and explicitly mentioned both session management/social logins as Clerk advantages and Lucia requiring too much manual work. The skill produced a high-quality, well-structured architectural decision record."
+  }
+}

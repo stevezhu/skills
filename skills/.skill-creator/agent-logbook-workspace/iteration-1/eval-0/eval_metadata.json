@@ -1,0 +1,14 @@
+{
+  "eval_id": 0,
+  "eval_name": "auth-refactor-activity",
+  "prompt": "I just finished refactoring the `assistant-web` auth logic to use TanStack Router hooks. Can you log what we did and what's left to do? I modified `apps/assistant-web/src/routes/auth.tsx` and `packages/assistant-app/src/hooks/use-auth.ts`. I still need to update the mobile app.",
+  "assertions": [
+    "A markdown file was created inside an 'activity' subdirectory (not just in the outputs root)",
+    "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format (not hardcoded or guessed)",
+    "The frontmatter contains 'type: activity'",
+    "The frontmatter contains a 'date' field in ISO 8601 UTC format",
+    "The frontmatter contains a 'branch' field",
+    "The document body mentions both modified files (auth.tsx and use-auth.ts)",
+    "The document body mentions updating the mobile app as remaining/follow-up work"
+  ]
+}
