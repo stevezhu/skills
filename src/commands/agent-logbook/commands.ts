@@ -2,13 +2,25 @@ import { buildCommand, buildRouteMap } from '@stricli/core';
 
 export const statsCommand = buildCommand({
   loader: async () => {
-    const { stats } = await import('./stats-impl.js');
+    const { stats } = await import('./stats/index.js');
     return stats;
   },
   parameters: {
+    flags: {
+      agent: {
+        kind: 'enum',
+        brief: 'The agent to get stats for',
+        values: ['claudecode', 'geminicli'],
+      },
+    },
     positional: {
       kind: 'tuple',
-      parameters: [],
+      parameters: [
+        {
+          parse: String,
+          brief: 'The session ID to get stats for',
+        },
+      ],
     },
   },
   docs: {
@@ -18,13 +30,19 @@ export const statsCommand = buildCommand({
 
 export const validateCommand = buildCommand({
   loader: async () => {
-    const { validate } = await import('./validate-impl.js');
+    const { validate } = await import('./validate/index.js');
     return validate;
   },
   parameters: {
     positional: {
       kind: 'tuple',
-      parameters: [],
+      parameters: [
+        {
+          parse: String,
+          brief: 'The target file or directory to validate frontmatter for',
+          optional: true,
+        },
+      ],
     },
   },
   docs: {
