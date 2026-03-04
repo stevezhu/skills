@@ -3,15 +3,30 @@ import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline';
 
+import type { Plugin, SessionStatsResult, StatsEntry } from '../types.js';
+
 const CLAUDE_PROJECTS_DIR = path.join(os.homedir(), '.claude', 'projects');
 
-async function parseJsonlFile(filePath) {
-  const stats = {
+interface RawStats {
+  input_tokens: number;
+  output_tokens: number;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  models: Set<string>;
+}
+
+interface ClaudeSessionData {
+  sessionFile: string;
+  subagentFiles: string[];
+}
+
+async function parseJsonlFile(filePath: string): Promise<RawStats> {
+  const stats: RawStats = {
     input_tokens: 0,
     output_tokens: 0,
     cache_creation_input_tokens: 0,
     cache_read_input_tokens: 0,
-    models: new Set(),
+    models: new Set<string>(),
   };
 
   const fileStream = fs.createReadStream(filePath);
@@ -27,8 +42,7 @@ async function parseJsonlFile(filePath) {
         const usage = data.message.usage;
         stats.input_tokens += usage.input_tokens || 0;
         stats.output_tokens += usage.output_tokens || 0;
-        stats.cache_creation_input_tokens +=
-          usage.cache_creation_input_tokens || 0;
+        stats.cache_creation_input_tokens += usage.cache_creation_input_tokens || 0;
         stats.cache_read_input_tokens += usage.cache_read_input_tokens || 0;
 
         if (data.message.model) {
@@ -43,7 +57,7 @@ async function parseJsonlFile(filePath) {
   return stats;
 }
 
-function combineStats(target, source) {
+function combineStats(target: RawStats, source: RawStats): void {
   target.input_tokens += source.input_tokens;
   target.output_tokens += source.output_tokens;
   target.cache_creation_input_tokens += source.cache_creation_input_tokens;
@@ -51,10 +65,10 @@ function combineStats(target, source) {
   source.models.forEach((m) => target.models.add(m));
 }
 
-export default {
+const claudePlugin: Plugin = {
   name: 'Claude',
 
-  async findSession(sessionId) {
+  async findSession(sessionId: string): Promise<ClaudeSessionData | null> {
     try {
       const projectDirs = await fs.promises.readdir(CLAUDE_PROJECTS_DIR);
       const sessionLookup = projectDirs.map(async (projectDir) => {
@@ -69,7 +83,7 @@ export default {
 
         await fs.promises.access(sessionFile);
 
-        let subagentFiles = [];
+        let subagentFiles: string[] = [];
         try {
           const files = await fs.promises.readdir(subagentsDir);
           subagentFiles = files
@@ -88,22 +102,22 @@ export default {
         }
         throw error;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error searching projects directory:', error.message);
     }
     return null;
   },
 
-  async aggregateStats(sessionData) {
+  async aggregateStats(sessionData: ClaudeSessionData): Promise<SessionStatsResult> {
     const mainStats = await parseJsonlFile(sessionData.sessionFile);
-    const totalStats = { ...mainStats, models: new Set(mainStats.models) };
+    const totalStats: RawStats = { ...mainStats, models: new Set(mainStats.models) };
 
-    const subagentsStats = {
+    const subagentsStats: RawStats & { count: number } = {
       input_tokens: 0,
       output_tokens: 0,
       cache_creation_input_tokens: 0,
       cache_read_input_tokens: 0,
-      models: new Set(),
+      models: new Set<string>(),
       count: sessionData.subagentFiles.length,
     };
 
@@ -116,8 +130,8 @@ export default {
     }
 
     const models = Array.from(totalStats.models);
-    const meta = [];
-    const sections = [
+    const meta: [string, string | number][] = [];
+    const sections: StatsEntry[] = [
       {
         label: 'MAIN SESSION',
         entries: [
@@ -146,7 +160,7 @@ export default {
       });
     }
 
-    const summary = {
+    const summary: StatsEntry = {
       label: 'TOTAL USAGE',
       entries: [
         ['Total Input Tokens', totalStats.input_tokens],
@@ -165,3 +179,5 @@ export default {
     return { models, meta, sections, summary, grandTotal };
   },
 };
+
+export default claudePlugin;

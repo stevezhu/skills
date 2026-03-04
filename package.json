@@ -4,6 +4,9 @@
   "keywords": [
     "skills"
   ],
+  "imports": {
+    "#*": "./src/*"
+  },
   "license": "MIT",
   "author": "Steve Zhu <4130171+stevezhu@users.noreply.github.com>",
   "repository": {
@@ -16,6 +19,8 @@
     "format:check": "oxfmt --check"
   },
   "devDependencies": {
+    "@stzhu/tsconfig": "^0.1.1",
+    "@types/node": "^25.3.3",
     "oxfmt": "^0.36.0"
   },
   "engines": {

@@ -1,18 +1,23 @@
 #!/usr/bin/env node
 
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import claudePlugin from './plugins/claude.js';
+import geminiPlugin from './plugins/gemini.js';
+import type { Plugin, SessionStatsResult } from './types.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const plugins: Record<string, Plugin> = {
+  claude: claudePlugin,
+  gemini: geminiPlugin,
+};
 
-function formatOutput(providerName, sessionId, result) {
-  const lines = [];
+function formatOutput(providerName: string, sessionId: string, result: SessionStatsResult): string {
+  const lines: string[] = [];
   lines.push('');
   lines.push(`${providerName} Session Stats: ${sessionId}`);
   lines.push('========================================');
 
   if (result.models.length > 0) {
-    if (result.meta?.some(([label]) => label === 'Models')) {
+    const hasModelsMeta = result.meta?.some(([label]) => label === 'Models');
+    if (hasModelsMeta) {
       // Multi-line model display (e.g. Claude with subagents)
       for (const [label, value] of result.meta) {
         if (label === 'Models') {
@@ -41,8 +46,7 @@ function formatOutput(providerName, sessionId, result) {
     lines.push('----------------------------------------');
     lines.push(`${section.label}:`);
     for (const [label, value] of section.entries) {
-      const num =
-        typeof value === 'number' ? value.toLocaleString() : String(value);
+      const num = typeof value === 'number' ? value.toLocaleString() : String(value);
       lines.push(`  ${label.padEnd(20)} ${num}`);
     }
   }
@@ -51,8 +55,7 @@ function formatOutput(providerName, sessionId, result) {
     lines.push('----------------------------------------');
     lines.push(`${result.summary.label}:`);
     for (const [label, value] of result.summary.entries) {
-      const num =
-        typeof value === 'number' ? value.toLocaleString() : String(value);
+      const num = typeof value === 'number' ? value.toLocaleString() : String(value);
       lines.push(`  ${label.padEnd(20)} ${num}`);
     }
   }
@@ -72,18 +75,15 @@ async function main() {
   const sessionId = process.argv[3];
 
   if (!provider || !sessionId) {
-    console.error('Usage: session-stats.js <provider> <session-id>');
+    console.error('Usage: session-stats <provider> <session-id>');
     console.error('Providers: claude, gemini');
     process.exit(1);
   }
 
-  let plugin;
-  try {
-    const mod = await import(path.join(__dirname, 'plugins', `${provider}.js`));
-    plugin = mod.default;
-  } catch {
+  const plugin = plugins[provider.toLowerCase()];
+  if (!plugin) {
     console.error(`Unknown provider: ${provider}`);
-    console.error('Available providers: claude, gemini');
+    console.error(`Available providers: ${Object.keys(plugins).join(', ')}`);
     process.exit(1);
   }
 

@@ -1,0 +1,3 @@
+{
+  "extends": "@stzhu/tsconfig/tsconfig.base.json"
+}

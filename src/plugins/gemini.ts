@@ -2,18 +2,20 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
+import type { Plugin, SessionStatsResult } from '../types.js';
+
 const GEMINI_TMP_DIR = path.join(os.homedir(), '.gemini', 'tmp');
 
-async function readJsonFile(filePath) {
+async function readJsonFile(filePath: string): Promise<any> {
   const content = await fs.promises.readFile(filePath, 'utf8');
   return JSON.parse(content);
 }
 
-export default {
+const geminiPlugin: Plugin = {
   name: 'Gemini',
 
-  async findSession(sessionId) {
-    const matchingFiles = [];
+  async findSession(sessionId: string): Promise<string[] | null> {
+    const matchingFiles: string[] = [];
     try {
       const projectDirs = await fs.promises.readdir(GEMINI_TMP_DIR);
       const dirResults = await Promise.all(
@@ -30,20 +32,20 @@ export default {
                 return data.sessionId === sessionId ? filePath : null;
               }),
             );
-            return fileResults.filter(Boolean);
+            return fileResults.filter((f): f is string => f !== null);
           } catch {
             return [];
           }
         }),
       );
       matchingFiles.push(...dirResults.flat());
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error searching gemini tmp directory:', error.message);
     }
     return matchingFiles.length > 0 ? matchingFiles : null;
   },
 
-  async aggregateStats(sessionFiles) {
+  async aggregateStats(sessionFiles: string[]): Promise<SessionStatsResult> {
     const stats = {
       input: 0,
       output: 0,
@@ -51,14 +53,14 @@ export default {
       thoughts: 0,
       tool: 0,
       total: 0,
-      models: new Set(),
+      models: new Set<string>(),
     };
 
     const results = await Promise.all(
       sessionFiles.map(async (filePath) => {
         try {
           return await readJsonFile(filePath);
-        } catch (error) {
+        } catch (error: any) {
           console.error(`Error processing file ${filePath}:`, error.message);
           return null;
         }
@@ -84,16 +86,16 @@ export default {
     }
 
     const models = Array.from(stats.models);
-    const meta = [['Files Found', sessionFiles.length]];
+    const meta: [string, string | number][] = [['Files Found', sessionFiles.length]];
     const sections = [
       {
         label: 'TOKEN USAGE',
         entries: [
-          ['Input Tokens', stats.input],
-          ['Output Tokens', stats.output],
-          ['Cached Tokens', stats.cached],
-          ['Thoughts Tokens', stats.thoughts],
-          ['Tool Tokens', stats.tool],
+          ['Input Tokens', stats.input] as [string, number],
+          ['Output Tokens', stats.output] as [string, number],
+          ['Cached Tokens', stats.cached] as [string, number],
+          ['Thoughts Tokens', stats.thoughts] as [string, number],
+          ['Tool Tokens', stats.tool] as [string, number],
         ],
       },
     ];
@@ -104,3 +106,5 @@ export default {
     return { models, meta, sections, summary, grandTotal };
   },
 };
+
+export default geminiPlugin;
