@@ -4,9 +4,6 @@
   "keywords": [
     "skills"
   ],
-  "imports": {
-    "#*": "./src/*"
-  },
   "license": "MIT",
   "author": "Steve Zhu <4130171+stevezhu@users.noreply.github.com>",
   "repository": {
@@ -14,7 +11,12 @@
     "url": "git+https://github.com/stevezhu/eslint-config.git"
   },
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
+    "ai:claude": "claude",
+    "ai:gemini": "SEATBELT_PROFILE=custom gemini",
     "format": "oxfmt",
     "format:check": "oxfmt --check"
   },
