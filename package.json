@@ -1,0 +1,25 @@
+{
+  "name": "@stevezhu/skills",
+  "version": "0.1.0",
+  "keywords": [
+    "skills"
+  ],
+  "license": "MIT",
+  "author": "Steve Zhu <4130171+stevezhu@users.noreply.github.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevezhu/eslint-config.git"
+  },
+  "type": "module",
+  "scripts": {
+    "format": "oxfmt",
+    "format:check": "oxfmt --check"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.36.0"
+  },
+  "engines": {
+    "node": ">=25"
+  },
+  "packageManager": "pnpm@10.28.3"
+}

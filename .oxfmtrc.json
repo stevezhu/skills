@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "sortImports": {},
+  "sortPackageJson": {
+    "sortScripts": true
+  },
+  "overrides": [
+    {
+      "files": ["*.jsonc"],
+      "options": {
+        // XXX: do not use trailing commas for jsonc files
+        // Reference: https://github.com/prettier/prettier/issues/15956#issuecomment-3000347490
+        "trailingComma": "none"
+      }
+    }
+  ],
+  "singleQuote": true
+}
