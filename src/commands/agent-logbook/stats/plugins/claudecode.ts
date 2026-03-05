@@ -85,7 +85,7 @@ function combineStats(target: ClaudeCodeStats, source: ClaudeCodeStats): void {
  * Handles parsing ClaudeCode's .jsonl logs found in ~/.claude/projects.
  */
 const claudecodePlugin = defineSessionStatsPlugin({
-  name: 'ClaudeCode',
+  name: 'claudecode',
 
   /**
    * Searches the ~/.claude/projects folder for a session log matching the given ID.

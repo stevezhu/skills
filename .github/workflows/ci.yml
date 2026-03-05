@@ -5,8 +5,6 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-env:
-  SKIP_POSTINSTALL: 1
 
 jobs:
   ci:

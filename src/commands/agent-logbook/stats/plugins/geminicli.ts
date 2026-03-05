@@ -32,7 +32,7 @@ async function readJsonFile(filePath: string): Promise<any> {
  * Handles parsing GeminiCLI session JSON files found in ~/.gemini/tmp.
  */
 const geminicliPlugin = defineSessionStatsPlugin({
-  name: 'GeminiCLI',
+  name: 'geminicli',
 
   /**
    * Searches the ~/.gemini/tmp folder for any chat session files matching the given ID.
