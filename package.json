@@ -32,6 +32,7 @@
     "lint:fix": "oxlint --type-aware --fix",
     "postinstall": "stz-skills install",
     "prepublishOnly": "pnpm run build",
+    "pretest": "tsc --noEmit",
     "test": "vitest"
   },
   "dependencies": {

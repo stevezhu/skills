@@ -21,6 +21,8 @@ describe('validate', () => {
     exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
     // Suppress console.error output and capture calls for assertions
     errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    // Suppress console.log output
+    vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
