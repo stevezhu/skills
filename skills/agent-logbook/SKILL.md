@@ -67,14 +67,14 @@ For other agents, use a concise lowercase identifier (e.g., `copilot`, `aider`).
 
 ### 4. Frontmatter & Session Stats
 
-**Before writing any document**, run the stats script to get the session's models and token usage. Use the output to populate `sessionId` and `models` in the frontmatter, then paste the full output as a `## Session Stats` section at the end of the document.
+**Before writing any document**, run the CLI command to get the session's models and token usage. Use the output to populate `sessionId` and `models` in the frontmatter, then paste the full output as a `## Session Stats` section at the end of the document.
 
 ```bash
 # Claude
-node .claude/skills/agent-logbook/scripts/session-stats.js claude <session-id>
+pnpx @stzhu/skills agent-logbook stats <session-id> --agent claudecode
 
 # Gemini
-node .claude/skills/agent-logbook/scripts/session-stats.js gemini <session-id>
+pnpx @stzhu/skills agent-logbook stats <session-id> --agent geminicli
 ```
 
 If you do not have a session ID or the script fails, default `models` to `[unknown]` and omit `sessionId`.
@@ -106,19 +106,16 @@ Run the bundled script to catch missing fields, wrong enum values, bad date form
 
 ```bash
 # Validate all logbook docs (defaults to .agent-logbook/)
-bash .claude/skills/agent-logbook/scripts/validate-frontmatter.sh
+pnpx @stzhu/skills agent-logbook validate
 
 # Validate a specific file or subdirectory
-bash .claude/skills/agent-logbook/scripts/validate-frontmatter.sh .agent-logbook/activity/
-
-# Output as JSON (e.g. for piping into jq)
-bash .claude/skills/agent-logbook/scripts/validate-frontmatter.sh --json
+pnpx @stzhu/skills agent-logbook validate .agent-logbook/activity/
 ```
 
 The script checks every `.md` file (excluding `templates/`) for:
 
 - **Filename format**: `YYYY-MM-DD_HHMMSSZ_agent_slug.md`
-- **Required fields**: `date`, `type`, `status`, `agent`, `branch`
+- **Required fields**: `date`, `type`, `status`, `agent`, `branch`, `models`
 - **`date`**: ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
 - **`type`**: one of `activity | research | decision | plan`
 - **`status`**: one of `complete | in-progress | abandoned | success | failure | partial`
@@ -133,9 +130,9 @@ trace where information came from and revisit sources in future sessions.
 
 Template files are in the `assets/` directory alongside this skill:
 
-| Template             | Use when                                                                                                                                                                                                     |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `assets/activity.md` | Finishing a task or session. Focus on "Work Performed" and "Outcome". **Before writing**, run the stats script to get `sessionId`, `models`, and token counts. Paste the raw output into `## Session Stats`. |
-| `assets/research.md` | Evaluation phases. Include "Question", "Findings", and "Recommendation".                                                                                                                                     |
-| `assets/decision.md` | Choosing between multiple architectural or technical paths.                                                                                                                                                  |
-| `assets/plan.md`     | **BEFORE** starting complex work to align on scope and steps.                                                                                                                                                |
+| Template             | Use when                                                                                                                                                                                                    |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `assets/activity.md` | Finishing a task or session. Focus on "Work Performed" and "Outcome". **Before writing**, run the CLI command to get `sessionId`, `models`, and token counts. Paste the raw output into `## Session Stats`. |
+| `assets/research.md` | Evaluation phases. Include "Question", "Findings", and "Recommendation".                                                                                                                                    |
+| `assets/decision.md` | Choosing between multiple architectural or technical paths.                                                                                                                                                 |
+| `assets/plan.md`     | **BEFORE** starting complex work to align on scope and steps.                                                                                                                                               |
