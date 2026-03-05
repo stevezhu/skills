@@ -30,7 +30,7 @@
     "format:check": "oxfmt --check",
     "lint": "pnpm run format:check && oxlint --type-aware",
     "lint:fix": "oxlint --type-aware --fix",
-    "postinstall": "stz-skills install",
+    "postinstall": "node dist/cli.mjs install",
     "prepublishOnly": "pnpm run build",
     "pretest": "tsc --noEmit",
     "test": "vitest"
