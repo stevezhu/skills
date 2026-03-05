@@ -4,9 +4,9 @@ type: activity
 status: complete
 agent: geminicli
 models: [gemini-2.5-flash-lite, gemini-3-flash-preview]
-session_id: 51d9dd15-db9b-44b0-99f0-d2b9284c53d4
+sessionId: 51d9dd15-db9b-44b0-99f0-d2b9284c53d4
 branch: agent-logbook
-files_modified:
+filesModified:
   [
     src/types.ts,
     src/plugins/claude.ts,

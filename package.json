@@ -28,6 +28,8 @@
     "build": "tsdown",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
+    "lint": "oxlint --type-aware",
+    "lint:fix": "oxlint --type-aware --fix",
     "postinstall": "stz-skills install",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
@@ -44,6 +46,8 @@
     "@stzhu/tsconfig": "^0.1.1",
     "@types/node": "^25.3.3",
     "oxfmt": "^0.36.0",
+    "oxlint": "^1.51.0",
+    "oxlint-tsgolint": "^0.16.0",
     "tsdown": "^0.20.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",

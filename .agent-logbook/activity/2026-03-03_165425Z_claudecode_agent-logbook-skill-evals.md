@@ -7,7 +7,7 @@ agent: claudecode
 models: [claude-sonnet-4-6]
 branch: t2
 tags: [skill-creator, agent-logbook, evals, benchmarking]
-files_modified:
+filesModified:
   - .rulesync/skills/agent-logbook/evals/evals.json
   - .rulesync/skills/agent-logbook-workspace/iteration-1/
 ---

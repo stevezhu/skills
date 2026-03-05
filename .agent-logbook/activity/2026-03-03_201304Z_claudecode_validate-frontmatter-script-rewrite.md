@@ -7,7 +7,7 @@ agent: claudecode
 models: [claude-sonnet-4-6]
 branch: t2
 tags: [agent-logbook, skill-creator, rulesync, validation, bash]
-files_modified:
+filesModified:
   - .rulesync/skills/agent-logbook/SKILL.md
   - .rulesync/skills/agent-logbook/scripts/validate-frontmatter.ts
   - .rulesync/skills/agent-logbook/scripts/validate-frontmatter.sh

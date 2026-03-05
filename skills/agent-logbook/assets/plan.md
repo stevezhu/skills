@@ -5,7 +5,7 @@ status: in-progress
 agent: claudecode
 models: [unknown]
 branch: main
-session_id: abc123
+sessionId: abc123
 tags: []
 ---
 

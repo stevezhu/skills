@@ -6,7 +6,7 @@ status: success
 agent: geminicli
 models: [gemini-3-auto]
 branch: main
-related_plan: plans/2026-03-04_194248Z_geminicli_claude-session-stats-script.md
+relatedPlan: plans/2026-03-04_194248Z_geminicli_claude-session-stats-script.md
 ---
 
 # Add Claude Session Stats Script

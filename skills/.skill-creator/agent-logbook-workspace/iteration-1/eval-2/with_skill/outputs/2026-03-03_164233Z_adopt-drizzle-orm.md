@@ -5,7 +5,7 @@ status: complete
 agent: claude-sonnet-4-6
 branch: t2
 tags: [orm, drizzle, prisma, database, typescript, architecture]
-related_plan:
+relatedPlan:
 ---
 
 # Adopt Drizzle ORM Over Prisma

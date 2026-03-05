@@ -7,7 +7,7 @@ agent: claudecode
 models: [claude-opus-4-6]
 branch: t2
 tags: [refactor, scripts, agent-logbook]
-files_modified:
+filesModified:
   - .rulesync/skills/agent-logbook/scripts/session-stats.js
   - .rulesync/skills/agent-logbook/scripts/plugins/claude.js
   - .rulesync/skills/agent-logbook/scripts/plugins/gemini.js

@@ -67,7 +67,7 @@ For other agents, use a concise lowercase identifier (e.g., `copilot`, `aider`).
 
 ### 4. Frontmatter & Session Stats
 
-**Before writing any document**, run the stats script to get the session's models and token usage. Use the output to populate `session_id` and `models` in the frontmatter, then paste the full output as a `## Session Stats` section at the end of the document.
+**Before writing any document**, run the stats script to get the session's models and token usage. Use the output to populate `sessionId` and `models` in the frontmatter, then paste the full output as a `## Session Stats` section at the end of the document.
 
 ```bash
 # Claude
@@ -77,7 +77,7 @@ node .claude/skills/agent-logbook/scripts/session-stats.js claude <session-id>
 node .claude/skills/agent-logbook/scripts/session-stats.js gemini <session-id>
 ```
 
-If you do not have a session ID or the script fails, default `models` to `[unknown]` and omit `session_id`.
+If you do not have a session ID or the script fails, default `models` to `[unknown]` and omit `sessionId`.
 
 Every document **MUST** include YAML frontmatter:
 
@@ -89,12 +89,12 @@ status: complete | in-progress | abandoned | success | failure | partial
 agent: claudecode # Agent name (see Known Agent Names above)
 models: [claude-opus-4-6] # From stats script output. Default: [unknown]
 branch: <current-branch> # git branch --show-current
-session_id: abc123 # From stats script output
-task_id: TICKET-123 # Optional
+sessionId: abc123 # From stats script output
+taskId: TICKET-123 # Optional
 cost: $0.00 # Optional per-session spend
 tags: [auth, api] # Optional
-files_modified: [path/to/file.ts] # Key files only
-related_plan: plans/slug_v1.md # Link activity/decision back to its plan
+filesModified: [path/to/file.ts] # Key files only
+relatedPlan: plans/slug_v1.md # Link activity/decision back to its plan
 ---
 ```
 
@@ -133,9 +133,9 @@ trace where information came from and revisit sources in future sessions.
 
 Template files are in the `assets/` directory alongside this skill:
 
-| Template             | Use when                                                                                                                                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `assets/activity.md` | Finishing a task or session. Focus on "Work Performed" and "Outcome". **Before writing**, run the stats script to get `session_id`, `models`, and token counts. Paste the raw output into `## Session Stats`. |
-| `assets/research.md` | Evaluation phases. Include "Question", "Findings", and "Recommendation".                                                                                                                                      |
-| `assets/decision.md` | Choosing between multiple architectural or technical paths.                                                                                                                                                   |
-| `assets/plan.md`     | **BEFORE** starting complex work to align on scope and steps.                                                                                                                                                 |
+| Template             | Use when                                                                                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `assets/activity.md` | Finishing a task or session. Focus on "Work Performed" and "Outcome". **Before writing**, run the stats script to get `sessionId`, `models`, and token counts. Paste the raw output into `## Session Stats`. |
+| `assets/research.md` | Evaluation phases. Include "Question", "Findings", and "Recommendation".                                                                                                                                     |
+| `assets/decision.md` | Choosing between multiple architectural or technical paths.                                                                                                                                                  |
+| `assets/plan.md`     | **BEFORE** starting complex work to align on scope and steps.                                                                                                                                                |

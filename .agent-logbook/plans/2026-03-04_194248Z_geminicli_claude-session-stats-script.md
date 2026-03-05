@@ -5,7 +5,7 @@ type: plan
 status: in-progress
 agent: geminicli
 models: [gemini-3-auto]
-session_id: 178337a4-61d3-423c-af10-d7fbed70afcb
+sessionId: 178337a4-61d3-423c-af10-d7fbed70afcb
 branch: main
 ---
 

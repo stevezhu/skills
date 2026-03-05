@@ -5,7 +5,7 @@ status: partial
 agent: claude-sonnet-4-6
 branch: t2
 tags: [auth, tanstack-router, refactor, web, mobile]
-files_modified:
+filesModified:
   - apps/assistant-web/src/routes/auth.tsx
   - packages/assistant-app/src/hooks/use-auth.ts
 ---

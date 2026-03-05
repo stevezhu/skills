@@ -44,6 +44,7 @@ async function findMarkdownFiles(targetPath: string): Promise<string[]> {
 
   while (queue.length > 0) {
     const dir = queue.shift()!;
+    // oxlint-disable-next-line no-await-in-loop
     const entries = await fs.readdir(dir, { withFileTypes: true });
 
     for (const entry of entries) {
@@ -64,7 +65,7 @@ async function findMarkdownFiles(targetPath: string): Promise<string[]> {
 
 export async function validate(
   this: LocalContext,
-  flags: ValidateCommandFlags,
+  _flags: ValidateCommandFlags,
   /**
    * Target path relative to the workspace root.
    */
@@ -79,7 +80,7 @@ export async function validate(
   // Track total failures across both checks so we can exit 1 at the end
   let failed = 0;
 
-  for (const file of files) {
+  const filePromises = files.map(async (file) => {
     const filename = path.basename(file);
 
     // Check 1: filename must match the expected naming convention.
@@ -88,7 +89,7 @@ export async function validate(
     if (!FILENAME_RE.test(filename)) {
       console.error(`FAIL (filename) ${file}`);
       failed++;
-      continue;
+      return;
     }
 
     // Check 2: frontmatter must match the JSON Schema.
@@ -115,10 +116,14 @@ export async function validate(
       }
       failed++;
     }
-  }
+  });
+
+  await Promise.all(filePromises);
 
   // Exit with a non-zero code so callers (CI, shell scripts) can detect failure
   if (failed > 0) {
     return process.exit(1);
   }
+
+  console.log('All files validated successfully');
 }

@@ -28,7 +28,7 @@
     {
       "text": "The document body mentions both modified files (auth.tsx and use-auth.ts)",
       "passed": true,
-      "evidence": "frontmatter files_modified lists both files and body mentions: 'apps/assistant-web/src/routes/auth.tsx' (line 25) and 'packages/assistant-app/src/hooks/use-auth.ts' (line 26)"
+      "evidence": "frontmatter filesModified lists both files and body mentions: 'apps/assistant-web/src/routes/auth.tsx' (line 25) and 'packages/assistant-app/src/hooks/use-auth.ts' (line 26)"
     },
     {
       "text": "The document body mentions updating the mobile app as remaining/follow-up work",

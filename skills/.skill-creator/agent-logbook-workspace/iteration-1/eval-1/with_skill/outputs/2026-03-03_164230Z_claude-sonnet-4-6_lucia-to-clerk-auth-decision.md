@@ -5,7 +5,7 @@ status: complete
 agent: claude-sonnet-4-6
 branch: t2
 tags: [auth, clerk, lucia, session-management, social-login]
-files_modified: []
+filesModified: []
 ---
 
 # Switch from Lucia to Clerk for Authentication
