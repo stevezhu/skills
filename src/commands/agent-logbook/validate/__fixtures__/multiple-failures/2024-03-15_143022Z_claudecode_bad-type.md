@@ -1,5 +1,5 @@
 ---
-date: "2024-03-15T14:30:22Z"
+date: 2024-03-15T14:30:22Z
 type: unknown-type
 status: complete
 agent: claudecode

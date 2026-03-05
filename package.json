@@ -29,14 +29,16 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "postinstall": "stz-skills install",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest"
   },
   "dependencies": {
     "@stricli/auto-complete": "^1.2.6",
     "@stricli/core": "^1.2.6",
-    "ajv": "^8.18.0",
-    "ajv-formats": "^3.0.1",
-    "find-workspaces": "^0.3.1"
+    "find-workspaces": "^0.3.1",
+    "gray-matter": "^4.0.3",
+    "typebox": "^1.1.5",
+    "yaml": "^2.8.2"
   },
   "devDependencies": {
     "@stzhu/tsconfig": "^0.1.1",
@@ -44,7 +46,8 @@
     "oxfmt": "^0.36.0",
     "tsdown": "^0.20.3",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "engines": {
     "node": ">=25"

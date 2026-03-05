@@ -1,13 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import Ajv from 'ajv';
-import addFormats from 'ajv-formats';
 import matter from 'gray-matter';
+import { Compile } from 'typebox/compile';
+import yaml from 'yaml';
 
 import type { LocalContext } from '#context.js';
 
-import frontmatterSchema from './frontmatterSchema.json' with { type: 'json' };
+import { FrontmatterSchema } from './frontmatterSchema.js';
 
 export type ValidateCommandFlags = {
   // ...
@@ -73,11 +73,7 @@ export async function validate(
   // Resolve to an absolute path so all downstream fs calls are unambiguous
   const absoluteTargetPath = path.resolve(this.workspacesRoot, targetPath);
 
-  const ajv = new Ajv();
-  // Register standard string formats (e.g. date-time) used in the schema
-  addFormats(ajv, ['date-time']);
-
-  const ajvValidate = ajv.compile(frontmatterSchema);
+  const typeboxValidate = Compile(FrontmatterSchema);
 
   const files = await findMarkdownFiles(absoluteTargetPath);
   // Track total failures across both checks so we can exit 1 at the end
@@ -98,14 +94,23 @@ export async function validate(
     // Check 2: frontmatter must match the JSON Schema.
     // gray-matter reads the YAML block between the leading `---` delimiters
     // and returns it parsed as a plain object in `data`.
-    const { data } = matter(await fs.readFile(file, 'utf8'));
+    const { data } = matter(await fs.readFile(file, 'utf8'), {
+      engines: {
+        yaml: {
+          parse: (text) => yaml.parse(text),
+          stringify: (data) => yaml.stringify(data),
+        },
+      },
+    });
 
-    if (!ajvValidate(data)) {
+    if (!typeboxValidate.Check(data)) {
       console.error(`FAIL (schema) ${file}`);
-      // Print each AJV error on its own indented line for readability.
+
+      // Print each error on its own indented line for readability.
       // instancePath is the JSON pointer to the offending field (e.g. "/date");
       // it is empty for top-level errors like "must have required property".
-      for (const error of ajvValidate.errors ?? []) {
+      const errors = typeboxValidate.Errors(data);
+      for (const error of errors) {
         console.error(`  ${error.instancePath || '(root)'} ${error.message}`);
       }
       failed++;

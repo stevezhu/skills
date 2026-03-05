@@ -71,6 +71,13 @@ describe('validate', () => {
   });
 
   describe('schema validation', () => {
+    test('rejects frontmatter with additional properties', async () => {
+      await runValidate('bad-schema/2024-03-15_143022Z_claudecode_additional-properties.md');
+
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('FAIL (schema)'));
+      expect(exitSpy).toHaveBeenCalledWith(1);
+    });
+
     test('rejects frontmatter missing the required date field', async () => {
       await runValidate('bad-schema/2024-03-15_143022Z_claudecode_missing-date.md');
 

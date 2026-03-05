@@ -1,5 +1,5 @@
 ---
-date: "2024-03-15"
+date: not a date
 type: activity
 status: complete
 agent: claudecode
