@@ -3,30 +3,15 @@ import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline';
 
-import type { Plugin, SessionStatsResult, StatsEntry } from '../types.js';
-
 const CLAUDE_PROJECTS_DIR = path.join(os.homedir(), '.claude', 'projects');
 
-interface RawStats {
-  input_tokens: number;
-  output_tokens: number;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  models: Set<string>;
-}
-
-interface ClaudeSessionData {
-  sessionFile: string;
-  subagentFiles: string[];
-}
-
-async function parseJsonlFile(filePath: string): Promise<RawStats> {
-  const stats: RawStats = {
+async function parseJsonlFile(filePath) {
+  const stats = {
     input_tokens: 0,
     output_tokens: 0,
     cache_creation_input_tokens: 0,
     cache_read_input_tokens: 0,
-    models: new Set<string>(),
+    models: new Set(),
   };
 
   const fileStream = fs.createReadStream(filePath);
@@ -42,7 +27,8 @@ async function parseJsonlFile(filePath: string): Promise<RawStats> {
         const usage = data.message.usage;
         stats.input_tokens += usage.input_tokens || 0;
         stats.output_tokens += usage.output_tokens || 0;
-        stats.cache_creation_input_tokens += usage.cache_creation_input_tokens || 0;
+        stats.cache_creation_input_tokens +=
+          usage.cache_creation_input_tokens || 0;
         stats.cache_read_input_tokens += usage.cache_read_input_tokens || 0;
 
         if (data.message.model) {
@@ -57,7 +43,7 @@ async function parseJsonlFile(filePath: string): Promise<RawStats> {
   return stats;
 }
 
-function combineStats(target: RawStats, source: RawStats): void {
+function combineStats(target, source) {
   target.input_tokens += source.input_tokens;
   target.output_tokens += source.output_tokens;
   target.cache_creation_input_tokens += source.cache_creation_input_tokens;
@@ -65,10 +51,10 @@ function combineStats(target: RawStats, source: RawStats): void {
   source.models.forEach((m) => target.models.add(m));
 }
 
-const claudePlugin: Plugin = {
+export default {
   name: 'Claude',
 
-  async findSession(sessionId: string): Promise<ClaudeSessionData | null> {
+  async findSession(sessionId) {
     try {
       const projectDirs = await fs.promises.readdir(CLAUDE_PROJECTS_DIR);
       const sessionLookup = projectDirs.map(async (projectDir) => {
@@ -83,7 +69,7 @@ const claudePlugin: Plugin = {
 
         await fs.promises.access(sessionFile);
 
-        let subagentFiles: string[] = [];
+        let subagentFiles = [];
         try {
           const files = await fs.promises.readdir(subagentsDir);
           subagentFiles = files
@@ -102,22 +88,22 @@ const claudePlugin: Plugin = {
         }
         throw error;
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error searching projects directory:', error.message);
     }
     return null;
   },
 
-  async aggregateStats(sessionData: ClaudeSessionData): Promise<SessionStatsResult> {
+  async aggregateStats(sessionData) {
     const mainStats = await parseJsonlFile(sessionData.sessionFile);
-    const totalStats: RawStats = { ...mainStats, models: new Set(mainStats.models) };
+    const totalStats = { ...mainStats, models: new Set(mainStats.models) };
 
-    const subagentsStats: RawStats & { count: number } = {
+    const subagentsStats = {
       input_tokens: 0,
       output_tokens: 0,
       cache_creation_input_tokens: 0,
       cache_read_input_tokens: 0,
-      models: new Set<string>(),
+      models: new Set(),
       count: sessionData.subagentFiles.length,
     };
 
@@ -130,8 +116,8 @@ const claudePlugin: Plugin = {
     }
 
     const models = Array.from(totalStats.models);
-    const meta: [string, string | number][] = [];
-    const sections: StatsEntry[] = [
+    const meta = [];
+    const sections = [
       {
         label: 'MAIN SESSION',
         entries: [
@@ -160,7 +146,7 @@ const claudePlugin: Plugin = {
       });
     }
 
-    const summary: StatsEntry = {
+    const summary = {
       label: 'TOTAL USAGE',
       entries: [
         ['Total Input Tokens', totalStats.input_tokens],
@@ -179,5 +165,3 @@ const claudePlugin: Plugin = {
     return { models, meta, sections, summary, grandTotal };
   },
 };
-
-export default claudePlugin;
