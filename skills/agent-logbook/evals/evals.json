@@ -1,0 +1,52 @@
+{
+  "skill_name": "agent-logbook",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I just finished refactoring the `assistant-web` auth logic to use TanStack Router hooks. Can you log what we did and what's left to do? I modified `apps/assistant-web/src/routes/auth.tsx` and `packages/assistant-app/src/hooks/use-auth.ts`. I still need to update the mobile app.",
+      "expected_output": "A markdown file in .agent-docs/activity/ with UTC timestamp, proper frontmatter (type: activity), and summary of the auth refactor.",
+      "files": [],
+      "assertions": [
+        "A markdown file was created inside an 'activity' subdirectory (not just in the outputs root)",
+        "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format (not hardcoded or guessed)",
+        "The frontmatter contains 'type: activity'",
+        "The frontmatter contains a 'date' field in ISO 8601 UTC format",
+        "The frontmatter contains a 'branch' field",
+        "The document body mentions both modified files (auth.tsx and use-auth.ts)",
+        "The document body mentions updating the mobile app as remaining/follow-up work"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "We decided to switch from Lucia to Clerk for better scalability. Document the reasoning for this choice and the trade-offs involved. Mention that Clerk handles session management and social logins out of the box, while Lucia was too much manual work.",
+      "expected_output": "A markdown file in .agent-docs/decisions/ with UTC timestamp, proper frontmatter (type: decision), and clear options/consequences sections.",
+      "files": [],
+      "assertions": [
+        "A markdown file was created inside a 'decisions' subdirectory (not just in the outputs root)",
+        "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+        "The frontmatter contains 'type: decision'",
+        "The document has a section for options considered, covering both Lucia and Clerk",
+        "The document has a decision section clearly naming Clerk as the chosen option",
+        "The document has a consequences or trade-offs section",
+        "The document mentions session management or social logins as advantages of Clerk",
+        "The document mentions Lucia requiring too much manual work"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I've been looking into `Drizzle ORM` vs `Prisma`. Here's what I found: Drizzle is faster and has better TypeScript support, while Prisma has a nicer CLI. We should go with Drizzle. Please document this research.",
+      "expected_output": "A markdown file in .agent-docs/research/ with UTC timestamp, proper frontmatter (type: research), and recommendation for Drizzle.",
+      "files": [],
+      "assertions": [
+        "A markdown file was created inside a 'research' subdirectory (not just in the outputs root)",
+        "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+        "The frontmatter contains 'type: research'",
+        "The document has a recommendation section explicitly recommending Drizzle",
+        "The document mentions Drizzle's performance/speed advantage",
+        "The document mentions Drizzle's better TypeScript support",
+        "The document mentions Prisma's nicer CLI as an advantage of Prisma",
+        "The document has a findings or comparison section (not just a conclusion)"
+      ]
+    }
+  ]
+}

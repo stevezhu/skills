@@ -1,0 +1,15 @@
+{
+  "eval_id": 1,
+  "eval_name": "lucia-to-clerk-decision",
+  "prompt": "We decided to switch from Lucia to Clerk for better scalability. Document the reasoning for this choice and the trade-offs involved. Mention that Clerk handles session management and social logins out of the box, while Lucia was too much manual work.",
+  "assertions": [
+    "A markdown file was created inside a 'decisions' subdirectory (not just in the outputs root)",
+    "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+    "The frontmatter contains 'type: decision'",
+    "The document has a section for options considered, covering both Lucia and Clerk",
+    "The document has a decision section clearly naming Clerk as the chosen option",
+    "The document has a consequences or trade-offs section",
+    "The document mentions session management or social logins as advantages of Clerk",
+    "The document mentions Lucia requiring too much manual work"
+  ]
+}

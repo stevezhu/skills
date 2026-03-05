@@ -1,0 +1,399 @@
+{
+  "metadata": {
+    "skill_name": "agent-logbook",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-03-03T16:47:35Z",
+    "evals_run": [0, 1, 2],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 56.7,
+        "tokens": 18803,
+        "tool_calls": 7,
+        "errors": 1
+      },
+      "expectations": [
+        {
+          "text": "A markdown file was created inside an 'activity' subdirectory (not just in the outputs root)",
+          "passed": true,
+          "evidence": "metrics.json files_created shows '.agent-docs/activity/2026-03-03_164221Z_claude-sonnet-4-6_refactor-auth-tanstack-router-hooks.md' and the file is confirmed present in /Users/stevezhu/Development/private/letuscook/.agent-docs/activity/"
+        },
+        {
+          "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format (not hardcoded or guessed)",
+          "passed": true,
+          "evidence": "Filename is '2026-03-03_164221Z_claude-sonnet-4-6_refactor-auth-tanstack-router-hooks.md' where '2026-03-03_164221Z' matches YYYY-MM-DD_HHMMSSZ format. The timestamp matches the frontmatter date field '2026-03-03T16:42:21Z', indicating it was dynamically generated."
+        },
+        {
+          "text": "The frontmatter contains 'type: activity'",
+          "passed": true,
+          "evidence": "Frontmatter line 3: 'type: activity'"
+        },
+        {
+          "text": "The frontmatter contains a 'date' field in ISO 8601 UTC format",
+          "passed": true,
+          "evidence": "Frontmatter line 2: 'date: 2026-03-03T16:42:21Z' \u2014 valid ISO 8601 UTC format with Z suffix"
+        },
+        {
+          "text": "The frontmatter contains a 'branch' field",
+          "passed": true,
+          "evidence": "Frontmatter line 6: 'branch: t2'"
+        },
+        {
+          "text": "The document body mentions both modified files (auth.tsx and use-auth.ts)",
+          "passed": true,
+          "evidence": "frontmatter filesModified lists both files and body mentions: 'apps/assistant-web/src/routes/auth.tsx' (line 25) and 'packages/assistant-app/src/hooks/use-auth.ts' (line 26)"
+        },
+        {
+          "text": "The document body mentions updating the mobile app as remaining/follow-up work",
+          "passed": true,
+          "evidence": "Body lines 31-32: 'TODO: Update `apps/assistant-mobile` to use the updated auth hooks. The mobile app uses Expo Router (not TanStack Router), so the hook integration strategy may differ...'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 62.7,
+        "tokens": 19375,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A markdown file was created inside a 'decisions' subdirectory (not just in the outputs root)",
+          "passed": true,
+          "evidence": "metrics.json shows files_created includes '.agent-docs/decisions/2026-03-03_164230Z_claude-sonnet-4-6_lucia-to-clerk-auth-decision.md', confirming the file was created in the decisions subdirectory of the real project"
+        },
+        {
+          "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+          "passed": true,
+          "evidence": "Filename is '2026-03-03_164230Z_claude-sonnet-4-6_lucia-to-clerk-auth-decision.md', which matches the YYYY-MM-DD_HHMMSSZ format (2026-03-03_164230Z)"
+        },
+        {
+          "text": "The frontmatter contains 'type: decision'",
+          "passed": true,
+          "evidence": "Frontmatter line 3: 'type: decision'"
+        },
+        {
+          "text": "The document has a section for options considered, covering both Lucia and Clerk",
+          "passed": true,
+          "evidence": "Document contains '## Options Considered' section with '### Option 1: Continue with Lucia Auth' and '### Option 2: Switch to Clerk' subsections"
+        },
+        {
+          "text": "The document has a decision section clearly naming Clerk as the chosen option",
+          "passed": true,
+          "evidence": "Document contains '## Decision' section with 'The project will switch to Clerk.' as the opening statement"
+        },
+        {
+          "text": "The document has a consequences or trade-offs section",
+          "passed": true,
+          "evidence": "Document contains '## Consequences' section with subsections '**Trade-offs accepted:**', '**Risks:**', and '**Triggers for revisiting this decision:**'"
+        },
+        {
+          "text": "The document mentions session management or social logins as advantages of Clerk",
+          "passed": true,
+          "evidence": "Under Option 2 pros: 'Session management handled out of the box (token rotation, multi-session, device management)' and 'Social logins (Google, GitHub, Apple, etc.) provided without per-provider manual integration'. Also repeated in the Decision section."
+        },
+        {
+          "text": "The document mentions Lucia requiring too much manual work",
+          "passed": true,
+          "evidence": "Decision section states: 'The primary driver is that Lucia required too much manual work \u2014 particularly around session management and social login integrations.'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 94.2,
+        "tokens": 4603,
+        "tool_calls": 10,
+        "errors": 1
+      },
+      "expectations": [
+        {
+          "text": "A markdown file was created inside a 'research' subdirectory (not just in the outputs root)",
+          "passed": true,
+          "evidence": "metrics.json confirms file created at '.agent-docs/research/2026-03-03_164233Z_drizzle-vs-prisma-orm.md', and directory listing verifies it exists at /Users/stevezhu/Development/private/letuscook/.agent-docs/research/"
+        },
+        {
+          "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+          "passed": true,
+          "evidence": "Filename is '2026-03-03_164233Z_drizzle-vs-prisma-orm.md', matching the YYYY-MM-DD_HHMMSSZ pattern (2026-03-03_164233Z)"
+        },
+        {
+          "text": "The frontmatter contains 'type: research'",
+          "passed": true,
+          "evidence": "Line 3 of the research file: 'type: research'"
+        },
+        {
+          "text": "The document has a recommendation section explicitly recommending Drizzle",
+          "passed": true,
+          "evidence": "## Recommendation section at line 60: 'Use **Drizzle ORM**. Its native TypeScript schema definitions and faster runtime performance align well with the project's TypeScript-first approach and Cloudflare Workers deployment target.'"
+        },
+        {
+          "text": "The document mentions Drizzle's performance/speed advantage",
+          "passed": true,
+          "evidence": "Under Drizzle ORM Strengths: 'Faster query execution \u2014 operates closer to the SQL layer with minimal abstraction overhead.' Also in comparison table: Runtime performance: Drizzle=Faster, Prisma=Slower."
+        },
+        {
+          "text": "The document mentions Drizzle's better TypeScript support",
+          "passed": true,
+          "evidence": "Under Drizzle ORM Strengths: 'Superior TypeScript support \u2014 schema definitions are pure TypeScript, providing end-to-end type safety without code generation steps.' Comparison table shows TypeScript support: Drizzle=Native, Prisma=Generated."
+        },
+        {
+          "text": "The document mentions Prisma's nicer CLI as an advantage of Prisma",
+          "passed": true,
+          "evidence": "Under Prisma Strengths: 'Excellent CLI for migrations, introspection, and seeding.' Comparison table shows CLI tooling: Drizzle=Good, Prisma=Better. Also Drizzle weakness noted: 'CLI tooling is less polished than Prisma's.'"
+        },
+        {
+          "text": "The document has a findings or comparison section (not just a conclusion)",
+          "passed": true,
+          "evidence": "Document contains '## Findings' section with subsections '### Drizzle ORM', '### Prisma', and '### Comparison Summary' with a full comparison table \u2014 this is separate from the Recommendation section."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.29,
+        "passed": 2,
+        "failed": 5,
+        "total": 7,
+        "time_seconds": 92.7,
+        "tokens": 4812,
+        "tool_calls": 20,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A markdown file was created inside an 'activity' subdirectory (not just in the outputs root)",
+          "passed": false,
+          "evidence": "The file was created at outputs/activity-log.md directly in the outputs root. No 'activity' subdirectory was created. metrics.json confirms: \"files_created\": [\".../outputs/activity-log.md\", \".../outputs/metrics.json\"]"
+        },
+        {
+          "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format (not hardcoded or guessed)",
+          "passed": false,
+          "evidence": "The filename is 'activity-log.md' with no timestamp at all. No date or time component appears in the filename."
+        },
+        {
+          "text": "The frontmatter contains 'type: activity'",
+          "passed": false,
+          "evidence": "The file has no YAML frontmatter block (no --- delimiters). Instead it uses markdown bold fields: '**Date:** 2026-03-03' and '**Branch:** t2'. There is no 'type' field."
+        },
+        {
+          "text": "The frontmatter contains a 'date' field in ISO 8601 UTC format",
+          "passed": false,
+          "evidence": "There is no YAML frontmatter. The file has '**Date:** 2026-03-03' as a markdown bold field, not a frontmatter field, and the value is a date-only string without time or timezone (not full ISO 8601 UTC format like 2026-03-03T12:00:00Z)."
+        },
+        {
+          "text": "The frontmatter contains a 'branch' field",
+          "passed": false,
+          "evidence": "There is no YAML frontmatter. The file has '**Branch:** t2' as a markdown bold field, not a frontmatter field."
+        },
+        {
+          "text": "The document body mentions both modified files (auth.tsx and use-auth.ts)",
+          "passed": true,
+          "evidence": "Both files are explicitly mentioned: '### 1. `apps/assistant-web/src/routes/auth.tsx` (created/modified)' and '### 2. `packages/assistant-app/src/hooks/use-auth.ts` (created/modified)'. They also appear in the 'Files Modified' table."
+        },
+        {
+          "text": "The document body mentions updating the mobile app as remaining/follow-up work",
+          "passed": true,
+          "evidence": "The '## What Is Left To Do' section explicitly states 'Mobile App Update (pending)' and details four specific tasks related to updating apps/assistant-mobile, including updating auth-provider.tsx, use-require-auth.tsx, _layout.tsx, and auth.ts."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.625,
+        "passed": 5,
+        "failed": 3,
+        "total": 8,
+        "time_seconds": 43.2,
+        "tokens": 5323,
+        "tool_calls": 4,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A markdown file was created inside a 'decisions' subdirectory (not just in the outputs root)",
+          "passed": false,
+          "evidence": "The file was created at outputs/lucia-to-clerk-decision.md directly in the outputs root. No 'decisions' subdirectory was created. The metrics.json confirms files_created: ['lucia-to-clerk-decision.md', 'metrics.json']."
+        },
+        {
+          "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+          "passed": false,
+          "evidence": "The filename is 'lucia-to-clerk-decision.md' with no timestamp. The expected format would be something like '2026-03-03_120000Z-lucia-to-clerk-decision.md'."
+        },
+        {
+          "text": "The frontmatter contains 'type: decision'",
+          "passed": false,
+          "evidence": "The document has no YAML frontmatter at all. It begins with '# Decision Record: Switch from Lucia to Clerk for Authentication' and uses bold key-value pairs like '**Date:** 2026-03-03' instead of frontmatter."
+        },
+        {
+          "text": "The document has a section for options considered, covering both Lucia and Clerk",
+          "passed": true,
+          "evidence": "The document has a 'Reasoning' section with two subsections: 'Why We Are Moving Away from Lucia' and 'Why We Are Choosing Clerk', covering both options in detail. While not labeled 'Options Considered', both options are substantively covered."
+        },
+        {
+          "text": "The document has a decision section clearly naming Clerk as the chosen option",
+          "passed": true,
+          "evidence": "The document has a '## Decision' section with the explicit statement: 'We will replace Lucia with Clerk as our authentication provider.'"
+        },
+        {
+          "text": "The document has a consequences or trade-offs section",
+          "passed": true,
+          "evidence": "The document has a '## Trade-offs' section with two subsections listing advantages and disadvantages of switching to Clerk, presented in table format."
+        },
+        {
+          "text": "The document mentions session management or social logins as advantages of Clerk",
+          "passed": true,
+          "evidence": "Under 'Why We Are Choosing Clerk': 'Session management handled automatically: Clerk manages the full session lifecycle' and 'Social logins out of the box: Clerk supports a wide range of OAuth providers'. Also repeated in the Trade-offs table."
+        },
+        {
+          "text": "The document mentions Lucia requiring too much manual work",
+          "passed": true,
+          "evidence": "Under 'Why We Are Moving Away from Lucia': 'Lucia requires the developer to implement and manage session creation, validation, expiration, and cleanup explicitly' and 'Developer time cost: The manual work required to keep authentication secure, functional, and feature-complete was diverting engineering effort away from core product features.'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.63,
+        "passed": 5,
+        "failed": 3,
+        "total": 8,
+        "time_seconds": 26.3,
+        "tokens": 1607,
+        "tool_calls": 3,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A markdown file was created inside a 'research' subdirectory (not just in the outputs root)",
+          "passed": false,
+          "evidence": "The file was created at 'outputs/drizzle-vs-prisma-research.md', directly in the outputs root. No 'research' subdirectory was created."
+        },
+        {
+          "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+          "passed": false,
+          "evidence": "The filename is 'drizzle-vs-prisma-research.md' with no timestamp component."
+        },
+        {
+          "text": "The frontmatter contains 'type: research'",
+          "passed": false,
+          "evidence": "The document has no YAML frontmatter (no --- delimiters). It begins directly with '# ORM Research: Drizzle vs Prisma' followed by bold key-value lines."
+        },
+        {
+          "text": "The document has a recommendation section explicitly recommending Drizzle",
+          "passed": true,
+          "evidence": "The 'Decision' section states: 'Use Drizzle ORM. The performance advantage and superior TypeScript type inference outweigh Prisma's nicer CLI tooling.'"
+        },
+        {
+          "text": "The document mentions Drizzle's performance/speed advantage",
+          "passed": true,
+          "evidence": "'Faster performance \u2014 Drizzle generates leaner SQL with less overhead compared to Prisma's query engine abstraction layer.'"
+        },
+        {
+          "text": "The document mentions Drizzle's better TypeScript support",
+          "passed": true,
+          "evidence": "'Better TypeScript support \u2014 Drizzle is built SQL-first and exposes a fully type-safe query builder that maps closely to SQL semantics, resulting in more accurate type inference.'"
+        },
+        {
+          "text": "The document mentions Prisma's nicer CLI as an advantage of Prisma",
+          "passed": true,
+          "evidence": "'Nicer CLI \u2014 `prisma migrate`, `prisma studio`, and related tools provide a smooth developer experience for migrations and data browsing.'"
+        },
+        {
+          "text": "The document has a findings or comparison section (not just a conclusion)",
+          "passed": true,
+          "evidence": "The document has a '## Comparison' section with dedicated '### Drizzle ORM' and '### Prisma' subsections covering strengths and weaknesses of each."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 71.2,
+        "stddev": 20.1432,
+        "min": 56.7,
+        "max": 94.2
+      },
+      "tokens": {
+        "mean": 14260.3333,
+        "stddev": 8368.3846,
+        "min": 4603,
+        "max": 19375
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.515,
+        "stddev": 0.1949,
+        "min": 0.29,
+        "max": 0.63
+      },
+      "time_seconds": {
+        "mean": 54.0667,
+        "stddev": 34.508,
+        "min": 26.3,
+        "max": 92.7
+      },
+      "tokens": {
+        "mean": 3914.0,
+        "stddev": 2014.1914,
+        "min": 1607,
+        "max": 5323
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.48",
+      "time_seconds": "+17.1",
+      "tokens": "+10346"
+    }
+  },
+  "notes": []
+}

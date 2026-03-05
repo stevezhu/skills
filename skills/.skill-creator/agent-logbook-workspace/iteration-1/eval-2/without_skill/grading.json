@@ -1,0 +1,84 @@
+{
+  "expectations": [
+    {
+      "text": "A markdown file was created inside a 'research' subdirectory (not just in the outputs root)",
+      "passed": false,
+      "evidence": "The file was created at 'outputs/drizzle-vs-prisma-research.md', directly in the outputs root. No 'research' subdirectory was created."
+    },
+    {
+      "text": "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+      "passed": false,
+      "evidence": "The filename is 'drizzle-vs-prisma-research.md' with no timestamp component."
+    },
+    {
+      "text": "The frontmatter contains 'type: research'",
+      "passed": false,
+      "evidence": "The document has no YAML frontmatter (no --- delimiters). It begins directly with '# ORM Research: Drizzle vs Prisma' followed by bold key-value lines."
+    },
+    {
+      "text": "The document has a recommendation section explicitly recommending Drizzle",
+      "passed": true,
+      "evidence": "The 'Decision' section states: 'Use Drizzle ORM. The performance advantage and superior TypeScript type inference outweigh Prisma's nicer CLI tooling.'"
+    },
+    {
+      "text": "The document mentions Drizzle's performance/speed advantage",
+      "passed": true,
+      "evidence": "'Faster performance — Drizzle generates leaner SQL with less overhead compared to Prisma's query engine abstraction layer.'"
+    },
+    {
+      "text": "The document mentions Drizzle's better TypeScript support",
+      "passed": true,
+      "evidence": "'Better TypeScript support — Drizzle is built SQL-first and exposes a fully type-safe query builder that maps closely to SQL semantics, resulting in more accurate type inference.'"
+    },
+    {
+      "text": "The document mentions Prisma's nicer CLI as an advantage of Prisma",
+      "passed": true,
+      "evidence": "'Nicer CLI — `prisma migrate`, `prisma studio`, and related tools provide a smooth developer experience for migrations and data browsing.'"
+    },
+    {
+      "text": "The document has a findings or comparison section (not just a conclusion)",
+      "passed": true,
+      "evidence": "The document has a '## Comparison' section with dedicated '### Drizzle ORM' and '### Prisma' subsections covering strengths and weaknesses of each."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 3,
+    "total": 8,
+    "pass_rate": 0.63
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Read": 0,
+      "Write": 2,
+      "Bash": 1,
+      "Edit": 0,
+      "Glob": 0,
+      "Grep": 0
+    },
+    "total_tool_calls": 3,
+    "total_steps": 2,
+    "files_created": [
+      ".rulesync/skills/agent-logbook-workspace/iteration-1/drizzle-vs-prisma-research/without_skill/outputs/drizzle-vs-prisma-research.md",
+      ".rulesync/skills/agent-logbook-workspace/iteration-1/drizzle-vs-prisma-research/without_skill/outputs/metrics.json"
+    ],
+    "errors_encountered": 0,
+    "output_chars": 1607,
+    "transcript_chars": 2800
+  },
+  "timing": {
+    "total_tokens": 13591,
+    "duration_ms": 26323,
+    "total_duration_seconds": 26.3
+  },
+  "claims": [],
+  "eval_feedback": {
+    "suggestions": [
+      "The skill should instruct agents to create output files in a 'research' subdirectory rather than the outputs root.",
+      "The skill should instruct agents to include a UTC timestamp (YYYY-MM-DD_HHMMSSZ) in the filename.",
+      "The skill should instruct agents to include YAML frontmatter with at minimum 'type: research'.",
+      "Consider whether 'Decision' is an acceptable synonym for 'recommendation' in assertion 4, or if the assertion requires a section literally titled 'Recommendation'."
+    ],
+    "overall": "The agent produced good substantive content (5/8 assertions passed) but failed all structural/formatting assertions. The document lacks a research subdirectory, a timestamp in the filename, and YAML frontmatter. The content itself was accurate and well-organized, covering performance, TypeScript support, Prisma CLI advantages, and a clear recommendation for Drizzle."
+  }
+}

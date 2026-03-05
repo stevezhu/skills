@@ -1,6 +1,7 @@
 {
-  "name": "@stevezhu/skills",
+  "name": "@stzhu/skills",
   "version": "0.1.0",
+  "description": "Skills CLI",
   "keywords": [
     "skills"
   ],
@@ -10,16 +11,51 @@
     "type": "git",
     "url": "git+https://github.com/stevezhu/eslint-config.git"
   },
+  "bin": {
+    "__stz-skills_bash_complete": "dist/bash-complete.mjs",
+    "stz-skills": "dist/cli.mjs"
+  },
+  "files": [
+    "dist"
+  ],
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
+    "ai:claude": "claude",
+    "ai:gemini": "SEATBELT_PROFILE=custom gemini",
+    "build": "tsdown",
     "format": "oxfmt",
-    "format:check": "oxfmt --check"
+    "format:check": "oxfmt --check",
+    "lint": "pnpm run format:check && oxlint --type-aware",
+    "lint:fix": "oxlint --type-aware --fix",
+    "postinstall": "([ ! -d \"src\" ] || pnpm run build) && node dist/cli.mjs install",
+    "prepublishOnly": "pnpm run build",
+    "pretest": "tsc --noEmit",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@stricli/auto-complete": "^1.2.6",
+    "@stricli/core": "^1.2.6",
+    "find-workspaces": "^0.3.1",
+    "gray-matter": "^4.0.3",
+    "typebox": "^1.1.5",
+    "yaml": "^2.8.2"
   },
   "devDependencies": {
-    "oxfmt": "^0.36.0"
+    "@stzhu/tsconfig": "^0.1.1",
+    "@types/node": "^25.3.3",
+    "oxfmt": "^0.36.0",
+    "oxlint": "^1.51.0",
+    "oxlint-tsgolint": "^0.16.0",
+    "tsdown": "^0.20.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "engines": {
     "node": ">=25"
   },
-  "packageManager": "pnpm@10.28.3"
+  "packageManager": "pnpm@10.30.3"
 }

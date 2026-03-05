@@ -1,0 +1,15 @@
+{
+  "eval_id": 2,
+  "eval_name": "drizzle-vs-prisma-research",
+  "prompt": "I've been looking into `Drizzle ORM` vs `Prisma`. Here's what I found: Drizzle is faster and has better TypeScript support, while Prisma has a nicer CLI. We should go with Drizzle. Please document this research.",
+  "assertions": [
+    "A markdown file was created inside a 'research' subdirectory (not just in the outputs root)",
+    "The filename includes a UTC timestamp in YYYY-MM-DD_HHMMSSZ format",
+    "The frontmatter contains 'type: research'",
+    "The document has a recommendation section explicitly recommending Drizzle",
+    "The document mentions Drizzle's performance/speed advantage",
+    "The document mentions Drizzle's better TypeScript support",
+    "The document mentions Prisma's nicer CLI as an advantage of Prisma",
+    "The document has a findings or comparison section (not just a conclusion)"
+  ]
+}
