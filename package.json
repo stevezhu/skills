@@ -28,7 +28,7 @@
     "build": "tsdown",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint": "oxlint --type-aware",
+    "lint": "pnpm run format:check && oxlint --type-aware",
     "lint:fix": "oxlint --type-aware --fix",
     "postinstall": "stz-skills install",
     "prepublishOnly": "pnpm run build",
