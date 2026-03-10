@@ -18,6 +18,8 @@
     "vitest"
   ],
   "rules": {
-    "import/namespace": "off"
+    "import/extensions": ["error", "ignorePackages"],
+    "import/namespace": "off",
+    "import/no-duplicates": "error"
   }
 }

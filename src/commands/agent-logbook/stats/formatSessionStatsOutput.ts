@@ -1,4 +1,4 @@
-import type { StatsResult } from './defineSessionStatsPlugin.js';
+import type { StatsResult } from './SessionStatsPlugin.ts';
 
 /**
  * Formats a StatsResult into a human-readable table/report for the CLI.
