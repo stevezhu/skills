@@ -5,8 +5,8 @@ import type { LocalContext } from '#context.ts';
 import { validate } from './index.ts';
 
 // Mock consola so we can capture and assert on logger calls
-const { mockLogger } = vi.hoisted(() => ({
-  mockLogger: {
+const { mockLogger } = vi.hoisted(() => {
+  const logger = {
     error: vi.fn(),
     success: vi.fn(),
     info: vi.fn(),
@@ -16,8 +16,11 @@ const { mockLogger } = vi.hoisted(() => ({
     warn: vi.fn(),
     log: vi.fn(),
     level: 3,
-  },
-}));
+    withTag: vi.fn(),
+  };
+  logger.withTag.mockReturnValue(logger);
+  return { mockLogger: logger };
+});
 
 vi.mock('consola', () => ({
   createConsola: vi.fn(() => mockLogger),
@@ -41,7 +44,7 @@ const fixturesDir = new URL('./__fixtures__', import.meta.url).pathname;
 
 async function runValidate(targetPath: string) {
   return validate.call(
-    { workspacesRoot: fixturesDir } as LocalContext,
+    { workspacesRoot: fixturesDir, logger: mockLogger } as unknown as LocalContext,
     { logLevel: 'info' },
     targetPath,
   );

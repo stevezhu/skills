@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { createConsola, LogLevels } from 'consola';
+import { LogLevels } from 'consola';
 import matter from 'gray-matter';
 import { Compile } from 'typebox/compile';
 import yaml from 'yaml';
@@ -9,18 +9,6 @@ import yaml from 'yaml';
 import type { LocalContext } from '#context.ts';
 
 import { FrontmatterSchema } from './frontmatterSchema.ts';
-
-const baseLogger = createConsola({
-  level: LogLevels.info,
-  fancy: true,
-  defaults: {
-    tag: 'agent-logbook/validate',
-  },
-  formatOptions: {
-    colors: true,
-    date: true,
-  },
-});
 
 export type ValidateCommandFlags = {
   /** The log level to use. */
@@ -86,7 +74,8 @@ export async function validate(
   targetPath: string = '.agent-logbook',
 ): Promise<void> {
   // 1. Configure the logger
-  baseLogger.level = LogLevels[logLevel] ?? LogLevels.info;
+  const validateLogger = this.logger.withTag('agent-logbook:validate');
+  validateLogger.level = LogLevels[logLevel];
 
   // Resolve to an absolute path so all downstream fs calls are unambiguous
   const absoluteTargetPath = path.resolve(this.workspacesRoot, targetPath);
@@ -104,7 +93,7 @@ export async function validate(
     // We report and skip rather than also schema-validating a misnamed file,
     // since the name itself already signals something is wrong.
     if (!FILENAME_RE.test(filename)) {
-      baseLogger.error(`FAIL (filename) ${file}`);
+      validateLogger.error(`FAIL (filename) ${file}`);
       failed++;
       return;
     }
@@ -122,14 +111,14 @@ export async function validate(
     });
 
     if (!typeboxValidate.Check(data)) {
-      baseLogger.error(`FAIL (schema) ${file}`);
+      validateLogger.error(`FAIL (schema) ${file}`);
 
       // Print each error on its own indented line for readability.
       // instancePath is the JSON pointer to the offending field (e.g. "/date");
       // it is empty for top-level errors like "must have required property".
       const errors = typeboxValidate.Errors(data);
       for (const error of errors) {
-        baseLogger.error(`  ${error.instancePath || '(root)'} ${error.message}`);
+        validateLogger.error(`  ${error.instancePath || '(root)'} ${error.message}`);
       }
       failed++;
     }
@@ -142,5 +131,5 @@ export async function validate(
     return process.exit(1);
   }
 
-  baseLogger.success('All files validated successfully');
+  validateLogger.success('All files validated successfully');
 }
