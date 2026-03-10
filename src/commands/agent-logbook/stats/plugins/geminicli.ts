@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { defineSessionStatsPlugin, type StatsResult } from '../defineSessionStatsPlugin.js';
+import { SessionStatsPlugin, type StatsResult } from '../defineSessionStatsPlugin.ts';
 
 /** Base directory where Gemini CLI stores its temporary session data. */
 const GEMINICLI_TMP_DIR = path.join(os.homedir(), '.gemini', 'tmp');
@@ -31,8 +31,8 @@ async function readJsonFile(filePath: string): Promise<any> {
  * The GeminiCLI-specific stats plugin.
  * Handles parsing GeminiCLI session JSON files found in ~/.gemini/tmp.
  */
-const geminicliPlugin = defineSessionStatsPlugin({
-  name: 'geminicli',
+export class GeminiCLIStatsPlugin extends SessionStatsPlugin {
+  readonly name = 'geminicli';
 
   /**
    * Searches the ~/.gemini/tmp folder for any chat session files matching the given ID.
@@ -68,10 +68,10 @@ const geminicliPlugin = defineSessionStatsPlugin({
       );
       matchingFiles.push(...dirResults.flat());
     } catch (error: any) {
-      console.error('Error searching gemini tmp directory:', error.message);
+      this.logger.error('Error searching gemini tmp directory:', error.message);
     }
     return matchingFiles.length > 0 ? matchingFiles : null;
-  },
+  }
 
   /**
    * Aggregates token stats from all JSON files associated with the Gemini session.
@@ -93,7 +93,7 @@ const geminicliPlugin = defineSessionStatsPlugin({
         try {
           return await readJsonFile(filePath);
         } catch (error: any) {
-          console.error(`Error processing file ${filePath}:`, error.message);
+          this.logger.error(`Error processing file ${filePath}:`, error.message);
           return null;
         }
       }),
@@ -139,7 +139,5 @@ const geminicliPlugin = defineSessionStatsPlugin({
     const grandTotal = stats.total;
 
     return { models, meta, sections, summary, grandTotal };
-  },
-});
-
-export default geminicliPlugin;
+  }
+}

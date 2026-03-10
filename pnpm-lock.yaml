@@ -14,6 +14,9 @@ importers:
       '@stricli/core':
         specifier: ^1.2.6
         version: 1.2.6
+      consola:
+        specifier: ^3.4.2
+        version: 3.4.2
       find-workspaces:
         specifier: ^0.3.1
         version: 0.3.1
@@ -885,6 +888,10 @@ packages:
 
   confbox@0.1.8:
     resolution: {integrity: sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w==}
+
+  consola@3.4.2:
+    resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
+    engines: {node: ^14.18.0 || >=16.10.0}
 
   defu@6.1.4:
     resolution: {integrity: sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg==}
@@ -1820,6 +1827,8 @@ snapshots:
   chai@6.2.2: {}
 
   confbox@0.1.8: {}
+
+  consola@3.4.2: {}
 
   defu@6.1.4: {}
 

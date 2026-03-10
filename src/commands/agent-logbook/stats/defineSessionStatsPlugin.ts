@@ -1,3 +1,5 @@
+import { consola, type ConsolaInstance } from 'consola';
+
 /**
  * Represents the aggregated statistics for an agent session.
  */
@@ -21,30 +23,37 @@ export type StatsResult = {
 };
 
 /**
- * Interface that all agent-specific stats plugins must implement.
+ * Options for configuring an agent-specific stats plugin.
  */
-export interface SessionStatsPlugin {
+export interface SessionStatsPluginOptions {
+  /** A consola logger instance for plugin-specific logging. */
+  logger?: ConsolaInstance;
+}
+
+/**
+ * Base class that all agent-specific stats plugins must extend.
+ */
+export abstract class SessionStatsPlugin {
   /** Display name of the agent (e.g., "ClaudeCode", "GeminiCLI"). */
-  name: string;
+  abstract readonly name: string;
+
+  /** Logger instance for the plugin. */
+  protected readonly logger: ConsolaInstance;
+
+  constructor(options: SessionStatsPluginOptions = {}) {
+    this.logger = options.logger ?? consola;
+  }
+
   /**
    * Locates session data on the local filesystem for a given session ID.
    * @param sessionId The unique identifier for the session.
    * @returns An agent-specific data structure or null if not found.
    */
-  findSession(sessionId: string): Promise<any>;
+  abstract findSession(sessionId: string): Promise<any>;
+
   /**
    * Processes the raw session data into a standardized StatsResult.
    * @param sessionData The data returned by findSession.
    */
-  aggregateStats(sessionData: any): Promise<StatsResult>;
-}
-
-/**
- * Identity wrapper for strongly typed session stats plugin implementations.
- *
- * Keeps types attached to the plugin object so call sites get full inference
- * and editor hints.
- */
-export function defineSessionStatsPlugin(plugin: SessionStatsPlugin): SessionStatsPlugin {
-  return plugin;
+  abstract aggregateStats(sessionData: any): Promise<StatsResult>;
 }

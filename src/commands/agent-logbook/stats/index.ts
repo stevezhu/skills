@@ -1,10 +1,12 @@
-import type { LocalContext } from '#context.js';
-import { defineCommandFunction } from '#util/defineCommandFunction.js';
+import { createConsola, LogLevels } from 'consola';
 
-import type { SessionStatsPlugin } from './defineSessionStatsPlugin.js';
-import { formatSessionStatsOutput } from './formatSessionStatsOutput.js';
-import claudecodePlugin from './plugins/claudecode.js';
-import geminicliPlugin from './plugins/geminicli.js';
+import type { LocalContext } from '#context.ts';
+import { defineCommandFunction } from '#util/defineCommandFunction.ts';
+
+import type { SessionStatsPlugin, SessionStatsPluginOptions } from './defineSessionStatsPlugin.ts';
+import { formatSessionStatsOutput } from './formatSessionStatsOutput.ts';
+import { ClaudeCodeStatsPlugin } from './plugins/claudecode.ts';
+import { GeminiCLIStatsPlugin } from './plugins/geminicli.ts';
 
 /** Arguments for the stats command. */
 export type StatsCommandFlags = {
@@ -12,10 +14,13 @@ export type StatsCommandFlags = {
   agent: 'claudecode' | 'geminicli';
 };
 
-/** Mapping of agent names to their respective stats plugins. */
-const plugins: Record<StatsCommandFlags['agent'], SessionStatsPlugin> = {
-  claudecode: claudecodePlugin,
-  geminicli: geminicliPlugin,
+/** Mapping of agent names to their respective stats plugin classes. */
+const plugins: Record<
+  StatsCommandFlags['agent'],
+  new (options?: SessionStatsPluginOptions) => SessionStatsPlugin
+> = {
+  claudecode: ClaudeCodeStatsPlugin,
+  geminicli: GeminiCLIStatsPlugin,
 };
 
 /**
@@ -34,13 +39,28 @@ export const stats = defineCommandFunction(async function stats(
     process.exit(1);
   }
 
-  // 2. Select the appropriate plugin for the agent
-  const plugin = plugins[agent];
-  if (!plugin) {
+  // 2. Select and instantiate the appropriate plugin for the agent
+  const PluginClass = plugins[agent];
+  if (!PluginClass) {
     console.error(`Unknown agent: ${agent}`);
     console.error('Available agents: claudecode, geminicli');
     process.exit(1);
   }
+
+  // Create a sub-logger for the specific agent/session
+  const logger = createConsola({
+    level: LogLevels.debug,
+    fancy: true,
+    defaults: {
+      tag: agent,
+    },
+    formatOptions: {
+      colors: true,
+      date: true,
+      columns: 1,
+    },
+  });
+  const plugin = new PluginClass({ logger });
 
   // 3. Locate session data using the plugin
   const sessionData = await plugin.findSession(sessionId);

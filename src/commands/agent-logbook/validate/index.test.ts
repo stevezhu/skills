@@ -1,8 +1,8 @@
-import { afterEach, beforeEach, describe, expect, test, Mock, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, type Mock, vi } from 'vitest';
 
-import type { LocalContext } from '#context.js';
+import type { LocalContext } from '#context.ts';
 
-import { validate } from './index.js';
+import { validate } from './index.ts';
 
 // All fixture subdirectories live here; each represents one test scenario.
 // Pass the scenario name as `targetPath` with `workspacesRoot` pointing here.

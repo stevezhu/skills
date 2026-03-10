@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline';
 
-import { defineSessionStatsPlugin, type StatsResult } from '../defineSessionStatsPlugin.js';
+import { SessionStatsPlugin, type StatsResult } from '../defineSessionStatsPlugin.ts';
 
 /** Base directory where Claude Code stores project and session metadata. */
 const CLAUDECODE_PROJECTS_DIR = path.join(os.homedir(), '.claude', 'projects');
@@ -84,8 +84,8 @@ function combineStats(target: ClaudeCodeStats, source: ClaudeCodeStats): void {
  * The ClaudeCode-specific stats plugin.
  * Handles parsing ClaudeCode's .jsonl logs found in ~/.claude/projects.
  */
-const claudecodePlugin = defineSessionStatsPlugin({
-  name: 'claudecode',
+export class ClaudeCodeStatsPlugin extends SessionStatsPlugin {
+  readonly name = 'claudecode';
 
   /**
    * Searches the ~/.claude/projects folder for a session log matching the given ID.
@@ -133,10 +133,10 @@ const claudecodePlugin = defineSessionStatsPlugin({
         throw error;
       }
     } catch (error: any) {
-      console.error('Error searching projects directory:', error.message);
+      this.logger.error('Error searching projects directory:', error.message);
     }
     return null;
-  },
+  }
 
   /**
    * Aggregates stats from the main session and any associated subagent logs.
@@ -216,7 +216,5 @@ const claudecodePlugin = defineSessionStatsPlugin({
       totalStats.cache_read_input_tokens;
 
     return { models, meta, sections, summary, grandTotal };
-  },
-});
-
-export default claudecodePlugin;
+  }
+}

@@ -2,7 +2,7 @@ import { buildInstallCommand, buildUninstallCommand } from '@stricli/auto-comple
 import { buildApplication, buildRouteMap } from '@stricli/core';
 
 import packageJson from '../package.json' with { type: 'json' };
-import { agentLogbookRoutes } from './commands/agent-logbook/commands.js';
+import { agentLogbookRoutes } from './commands/agent-logbook/commands.ts';
 
 const routes = buildRouteMap({
   routes: {

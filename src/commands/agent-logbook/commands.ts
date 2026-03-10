@@ -2,7 +2,7 @@ import { buildCommand, buildRouteMap } from '@stricli/core';
 
 export const statsCommand = buildCommand({
   loader: async () => {
-    const { stats } = await import('./stats/index.js');
+    const { stats } = await import('./stats/index.ts');
     return stats;
   },
   parameters: {
@@ -30,7 +30,7 @@ export const statsCommand = buildCommand({
 
 export const validateCommand = buildCommand({
   loader: async () => {
-    const { validate } = await import('./validate/index.js');
+    const { validate } = await import('./validate/index.ts');
     return validate;
   },
   parameters: {

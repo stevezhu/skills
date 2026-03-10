@@ -20,6 +20,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "dev": "node src/bin/cli.ts",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "pnpm run format:check && oxlint --type-aware",
@@ -31,6 +32,7 @@
   "dependencies": {
     "@stricli/auto-complete": "^1.2.6",
     "@stricli/core": "^1.2.6",
+    "consola": "^3.4.2",
     "find-workspaces": "^0.3.1",
     "gray-matter": "^4.0.3",
     "typebox": "^1.1.6",
