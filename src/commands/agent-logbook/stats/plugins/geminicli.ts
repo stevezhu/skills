@@ -2,7 +2,11 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { SessionStatsPlugin, type StatsResult } from '../defineSessionStatsPlugin.ts';
+import { colorize } from 'consola/utils';
+
+import { convertToTerminalLink } from '#util/convertToTerminalLink.ts';
+
+import { SessionStatsPlugin, type StatsResult } from '../SessionStatsPlugin.ts';
 
 /** Base directory where Gemini CLI stores its temporary session data. */
 const GEMINICLI_TMP_DIR = path.join(os.homedir(), '.gemini', 'tmp');
@@ -42,10 +46,18 @@ export class GeminiCLIStatsPlugin extends SessionStatsPlugin {
     const matchingFiles: string[] = [];
     try {
       const projectDirs = await fs.promises.readdir(GEMINICLI_TMP_DIR);
+      this.logger.debug('Searching for session id:', colorize('green', sessionId));
       // Scan each project directory in the tmp folder.
       const dirResults = await Promise.all(
         projectDirs.map(async (projectDir) => {
           const chatsDir = path.join(GEMINICLI_TMP_DIR, projectDir, 'chats');
+          this.logger.debug(
+            'Searching chats directory:',
+            convertToTerminalLink(chatsDir, {
+              basePath: GEMINICLI_TMP_DIR,
+              basePathReplacement: '~/.gemini/tmp',
+            }),
+          );
           try {
             const files = await fs.promises.readdir(chatsDir);
             const jsonFiles = files

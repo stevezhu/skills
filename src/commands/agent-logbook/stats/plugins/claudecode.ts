@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline';
 
-import { SessionStatsPlugin, type StatsResult } from '../defineSessionStatsPlugin.ts';
+import { SessionStatsPlugin, type StatsResult } from '../SessionStatsPlugin.ts';
 
 /** Base directory where Claude Code stores project and session metadata. */
 const CLAUDECODE_PROJECTS_DIR = path.join(os.homedir(), '.claude', 'projects');

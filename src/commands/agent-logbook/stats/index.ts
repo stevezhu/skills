@@ -1,12 +1,25 @@
 import { createConsola, LogLevels } from 'consola';
+import { colorize } from 'consola/utils';
 
 import type { LocalContext } from '#context.ts';
 import { defineCommandFunction } from '#util/defineCommandFunction.ts';
 
-import type { SessionStatsPlugin, SessionStatsPluginOptions } from './defineSessionStatsPlugin.ts';
 import { formatSessionStatsOutput } from './formatSessionStatsOutput.ts';
 import { ClaudeCodeStatsPlugin } from './plugins/claudecode.ts';
 import { GeminiCLIStatsPlugin } from './plugins/geminicli.ts';
+import type { SessionStatsPlugin, SessionStatsPluginOptions } from './SessionStatsPlugin.ts';
+
+const baseLogger = createConsola({
+  level: LogLevels.debug,
+  fancy: true,
+  defaults: {
+    tag: 'agent-logbook/stats',
+  },
+  formatOptions: {
+    colors: true,
+    date: true,
+  },
+});
 
 /** Arguments for the stats command. */
 export type StatsCommandFlags = {
@@ -48,28 +61,17 @@ export const stats = defineCommandFunction(async function stats(
   }
 
   // Create a sub-logger for the specific agent/session
-  const logger = createConsola({
-    level: LogLevels.debug,
-    fancy: true,
-    defaults: {
-      tag: agent,
-    },
-    formatOptions: {
-      colors: true,
-      date: true,
-      columns: 1,
-    },
-  });
+  const logger = baseLogger.withTag(agent);
   const plugin = new PluginClass({ logger });
 
   // 3. Locate session data using the plugin
   const sessionData = await plugin.findSession(sessionId);
   if (!sessionData) {
-    console.error(`Session not found for ID: ${sessionId}`);
+    baseLogger.error('Session not found for id:', colorize('green', sessionId));
     process.exit(1);
   }
 
   // 4. Aggregate stats and format the output
   const result = await plugin.aggregateStats(sessionData);
-  console.log(formatSessionStatsOutput(plugin.name, sessionId, result));
+  baseLogger.log(formatSessionStatsOutput(plugin.name, sessionId, result));
 });

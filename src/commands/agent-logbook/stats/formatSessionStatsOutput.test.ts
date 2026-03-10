@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 
-import type { StatsResult } from './defineSessionStatsPlugin.ts';
 import { formatSessionStatsOutput } from './formatSessionStatsOutput.ts';
+import type { StatsResult } from './SessionStatsPlugin.ts';
 
 describe('formatSessionStatsOutput', () => {
   test('formats minimal stats correctly', () => {
