@@ -6,13 +6,13 @@ import { colorize } from 'consola/utils';
 
 import { convertToTerminalLink } from '#util/convertToTerminalLink.ts';
 
-import { SessionStatsPlugin, type StatsResult } from '../SessionStatsPlugin.ts';
+import { SessionStatsPlugin, type SessionData, type StatsResult } from '../SessionStatsPlugin.ts';
 
 /** Base directory where Gemini CLI stores its temporary session data. */
 const GEMINICLI_TMP_DIR = path.join(os.homedir(), '.gemini', 'tmp');
 
 /** Structure to hold token counts and model usage from a Gemini session file. */
-interface GeminiCLIStats {
+type GeminiCLIStats = {
   input: number;
   output: number;
   cached: number;
@@ -20,7 +20,7 @@ interface GeminiCLIStats {
   tool: number;
   total: number;
   models: Set<string>;
-}
+};
 
 /**
  * Helper to read and parse a JSON file from the filesystem.
@@ -42,7 +42,7 @@ export class GeminiCLIStatsPlugin extends SessionStatsPlugin {
    * Searches the ~/.gemini/tmp folder for any chat session files matching the given ID.
    * Gemini sessions are stored in subfolders by project, under a 'chats' directory.
    */
-  async findSession(sessionId: string): Promise<string[] | null> {
+  async findSession(sessionId: string): Promise<SessionData | null> {
     const matchingFiles: string[] = [];
     try {
       const projectDirs = await fs.promises.readdir(GEMINICLI_TMP_DIR);
@@ -82,22 +82,16 @@ export class GeminiCLIStatsPlugin extends SessionStatsPlugin {
     } catch (error: any) {
       this.logger.error('Error searching gemini tmp directory:', error.message);
     }
-    return matchingFiles.length > 0 ? matchingFiles : null;
+    return matchingFiles.length > 0
+      ? { sessionFiles: matchingFiles, subagentSessionFiles: [] }
+      : null;
   }
 
   /**
    * Aggregates token stats from all JSON files associated with the Gemini session.
    */
-  async aggregateStats(sessionFiles: string[]): Promise<StatsResult> {
-    const stats: GeminiCLIStats = {
-      input: 0,
-      output: 0,
-      cached: 0,
-      thoughts: 0,
-      tool: 0,
-      total: 0,
-      models: new Set(),
-    };
+  async aggregateStats(sessionData: SessionData): Promise<StatsResult> {
+    const { sessionFiles } = sessionData;
 
     // Load all matching session files in parallel.
     const results = await Promise.all(
@@ -112,24 +106,36 @@ export class GeminiCLIStatsPlugin extends SessionStatsPlugin {
     );
 
     // Iterate through messages in each session file and sum token counts.
-    for (const data of results) {
-      if (!data?.messages || !Array.isArray(data.messages)) continue;
-      for (const msg of data.messages) {
-        // Only count messages of type 'gemini' which contain usage/token data.
-        if (msg.type === 'gemini' && msg.tokens) {
-          stats.input += msg.tokens.input || 0;
-          stats.output += msg.tokens.output || 0;
-          stats.cached += msg.tokens.cached || 0;
-          stats.thoughts += msg.tokens.thoughts || 0;
-          stats.tool += msg.tokens.tool || 0;
-          stats.total += msg.tokens.total || 0;
+    const stats = results.reduce<GeminiCLIStats>(
+      (acc, data) => {
+        if (!data?.messages || !Array.isArray(data.messages)) return acc;
+        for (const msg of data.messages) {
+          // Only count messages of type 'gemini' which contain usage/token data.
+          if (msg.type === 'gemini' && msg.tokens) {
+            acc.input += msg.tokens.input || 0;
+            acc.output += msg.tokens.output || 0;
+            acc.cached += msg.tokens.cached || 0;
+            acc.thoughts += msg.tokens.thoughts || 0;
+            acc.tool += msg.tokens.tool || 0;
+            acc.total += msg.tokens.total || 0;
 
-          if (msg.model) {
-            stats.models.add(msg.model);
+            if (msg.model) {
+              acc.models.add(msg.model);
+            }
           }
         }
-      }
-    }
+        return acc;
+      },
+      {
+        input: 0,
+        output: 0,
+        cached: 0,
+        thoughts: 0,
+        tool: 0,
+        total: 0,
+        models: new Set<string>(),
+      },
+    );
 
     // Construct the standardized report structure.
     const models = Array.from(stats.models);

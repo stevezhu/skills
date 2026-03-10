@@ -31,6 +31,16 @@ export interface SessionStatsPluginOptions {
 }
 
 /**
+ * Represents the raw session data found by a plugin.
+ */
+export type SessionData = {
+  /** The list of main session log files. */
+  sessionFiles: string[];
+  /** The list of subagent session log files. */
+  subagentSessionFiles: string[];
+};
+
+/**
  * Base class that all agent-specific stats plugins must extend.
  */
 export abstract class SessionStatsPlugin {
@@ -49,11 +59,11 @@ export abstract class SessionStatsPlugin {
    * @param sessionId The unique identifier for the session.
    * @returns An agent-specific data structure or null if not found.
    */
-  abstract findSession(sessionId: string): Promise<any>;
+  abstract findSession(sessionId: string): Promise<SessionData | null>;
 
   /**
    * Processes the raw session data into a standardized StatsResult.
    * @param sessionData The data returned by findSession.
    */
-  abstract aggregateStats(sessionData: any): Promise<StatsResult>;
+  abstract aggregateStats(sessionData: SessionData): Promise<StatsResult>;
 }

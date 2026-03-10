@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import type { StricliAutoCompleteContext } from '@stricli/auto-complete';
 import type { CommandContext } from '@stricli/core';
-import { createConsola, LogLevels, type ConsolaInstance } from 'consola';
+import { createConsola, type ConsolaInstance } from 'consola';
 import { findWorkspacesRoot } from 'find-workspaces';
 
 export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
