@@ -12,6 +12,12 @@ export const statsCommand = buildCommand({
         brief: 'The agent to get stats for',
         values: ['claudecode', 'geminicli'],
       },
+      logLevel: {
+        kind: 'enum',
+        brief: 'The log level to use',
+        values: ['silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace', 'verbose'],
+        default: 'info',
+      },
     },
     positional: {
       kind: 'tuple',
@@ -34,6 +40,14 @@ export const validateCommand = buildCommand({
     return validate;
   },
   parameters: {
+    flags: {
+      logLevel: {
+        kind: 'enum',
+        brief: 'The log level to use',
+        values: ['silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace', 'verbose'],
+        default: 'info',
+      },
+    },
     positional: {
       kind: 'tuple',
       parameters: [

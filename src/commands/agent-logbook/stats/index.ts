@@ -25,6 +25,8 @@ const baseLogger = createConsola({
 export type StatsCommandFlags = {
   /** The agent to retrieve stats for. */
   agent: 'claudecode' | 'geminicli';
+  /** The log level to use. */
+  logLevel: 'silent' | 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'verbose';
 };
 
 /** Mapping of agent names to their respective stats plugin classes. */
@@ -42,21 +44,24 @@ const plugins: Record<
  */
 export const stats = defineCommandFunction(async function stats(
   this: LocalContext,
-  { agent }: StatsCommandFlags,
+  { agent, logLevel }: StatsCommandFlags,
   sessionId: string,
 ): Promise<void> {
   // 1. Basic input validation
   if (!agent || !sessionId) {
-    console.error('Usage: session-stats.js <agent> <session-id>');
-    console.error('Agents: claudecode, geminicli');
+    baseLogger.error('Usage: session-stats.js <agent> <session-id>');
+    baseLogger.error('Agents: claudecode, geminicli');
     process.exit(1);
   }
 
-  // 2. Select and instantiate the appropriate plugin for the agent
+  // 2. Configure the logger
+  baseLogger.level = LogLevels[logLevel] ?? LogLevels.info;
+
+  // 3. Select and instantiate the appropriate plugin for the agent
   const PluginClass = plugins[agent];
   if (!PluginClass) {
-    console.error(`Unknown agent: ${agent}`);
-    console.error('Available agents: claudecode, geminicli');
+    baseLogger.error(`Unknown agent: ${agent}`);
+    baseLogger.error('Available agents: claudecode, geminicli');
     process.exit(1);
   }
 
@@ -64,14 +69,14 @@ export const stats = defineCommandFunction(async function stats(
   const logger = baseLogger.withTag(agent);
   const plugin = new PluginClass({ logger });
 
-  // 3. Locate session data using the plugin
+  // 4. Locate session data using the plugin
   const sessionData = await plugin.findSession(sessionId);
   if (!sessionData) {
     baseLogger.error('Session not found for id:', colorize('green', sessionId));
     process.exit(1);
   }
 
-  // 4. Aggregate stats and format the output
+  // 5. Aggregate stats and format the output
   const result = await plugin.aggregateStats(sessionData);
   baseLogger.log(formatSessionStatsOutput(plugin.name, sessionId, result));
 });
