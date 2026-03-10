@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { LogLevels } from 'consola';
+import { LogLevels, type LogType } from 'consola';
 import matter from 'gray-matter';
 import { Compile } from 'typebox/compile';
 import yaml from 'yaml';
@@ -12,7 +12,10 @@ import { FrontmatterSchema } from './frontmatterSchema.ts';
 
 export type ValidateCommandFlags = {
   /** The log level to use. */
-  logLevel: 'silent' | 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'verbose';
+  logLevel: Extract<
+    LogType,
+    'silent' | 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'verbose'
+  >;
 };
 
 /**

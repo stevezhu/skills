@@ -1,4 +1,4 @@
-import { LogLevels } from 'consola';
+import { LogLevels, type LogType } from 'consola';
 import { colorize } from 'consola/utils';
 
 import type { LocalContext } from '#context.ts';
@@ -14,7 +14,10 @@ export type StatsCommandFlags = {
   /** The agent to retrieve stats for. */
   agent: 'claudecode' | 'geminicli';
   /** The log level to use. */
-  logLevel: 'silent' | 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'verbose';
+  logLevel: Extract<
+    LogType,
+    'silent' | 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'verbose'
+  >;
 };
 
 /** Mapping of agent names to their respective stats plugin classes. */
