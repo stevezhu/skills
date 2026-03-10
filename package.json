@@ -9,7 +9,6 @@
   "author": "Steve Zhu <4130171+stevezhu@users.noreply.github.com>",
   "repository": "github:stevezhu/skills",
   "bin": {
-    "__stz-skills_bash_complete": "dist/bash-complete.mjs",
     "stz-skills": "dist/cli.mjs"
   },
   "files": [
