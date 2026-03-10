@@ -21,13 +21,13 @@ export type StatsCommandFlags = {
 };
 
 /** Mapping of agent names to their respective stats plugin classes. */
-const plugins: Record<
-  StatsCommandFlags['agent'],
-  new (options?: SessionStatsPluginOptions) => SessionStatsPlugin
-> = {
+const plugins = {
   claudecode: ClaudeCodeStatsPlugin,
   geminicli: GeminiCLIStatsPlugin,
-};
+} satisfies Record<
+  StatsCommandFlags['agent'],
+  new (options?: SessionStatsPluginOptions) => SessionStatsPlugin
+>;
 
 /**
  * The 'stats' command implementation.
