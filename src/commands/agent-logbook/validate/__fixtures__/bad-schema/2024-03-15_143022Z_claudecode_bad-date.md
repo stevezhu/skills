@@ -1,7 +1,7 @@
 ---
 date: not a date
 type: activity
-status: complete
+status: done
 agent: claudecode
 branch: main
 models:

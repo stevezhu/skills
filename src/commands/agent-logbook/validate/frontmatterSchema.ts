@@ -17,12 +17,9 @@ export const FrontmatterSchema = Type.Object(
       Type.Literal('plan'),
     ]),
     status: Type.Union([
-      Type.Literal('complete'),
+      Type.Literal('done'),
       Type.Literal('in-progress'),
       Type.Literal('abandoned'),
-      Type.Literal('success'),
-      Type.Literal('failure'),
-      Type.Literal('partial'),
     ]),
     agent: Type.String({ minLength: 1 }),
     branch: Type.String({ minLength: 1 }),
