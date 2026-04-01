@@ -20,6 +20,7 @@ export const FrontmatterSchema = Type.Object(
       Type.Literal('done'),
       Type.Literal('in-progress'),
       Type.Literal('abandoned'),
+      Type.Literal('superseded'),
     ]),
     agent: Type.String({ minLength: 1 }),
     branch: Type.String({ minLength: 1 }),
