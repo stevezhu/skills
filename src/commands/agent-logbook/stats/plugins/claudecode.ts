@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline';
 
-import { defineSessionStatsPlugin, type StatsResult } from '../defineSessionStatsPlugin.js';
+import { SessionStatsPlugin, type SessionData, type StatsResult } from '../SessionStatsPlugin.ts';
 
 /** Base directory where Claude Code stores project and session metadata. */
 const CLAUDECODE_PROJECTS_DIR = path.join(os.homedir(), '.claude', 'projects');
@@ -15,12 +15,6 @@ interface ClaudeCodeStats {
   cache_creation_input_tokens: number;
   cache_read_input_tokens: number;
   models: Set<string>;
-}
-
-/** Locates the main session log and any subagent logs for a given session. */
-interface ClaudeCodeSessionData {
-  sessionFile: string;
-  subagentFiles: string[];
 }
 
 /**
@@ -84,14 +78,14 @@ function combineStats(target: ClaudeCodeStats, source: ClaudeCodeStats): void {
  * The ClaudeCode-specific stats plugin.
  * Handles parsing ClaudeCode's .jsonl logs found in ~/.claude/projects.
  */
-const claudecodePlugin = defineSessionStatsPlugin({
-  name: 'claudecode',
+export class ClaudeCodeStatsPlugin extends SessionStatsPlugin {
+  readonly name = 'claudecode';
 
   /**
    * Searches the ~/.claude/projects folder for a session log matching the given ID.
    * Also checks for subagent logs in a subfolder with the same ID.
    */
-  async findSession(sessionId: string): Promise<ClaudeCodeSessionData | null> {
+  async findSession(sessionId: string): Promise<SessionData | null> {
     try {
       const projectDirs = await fs.promises.readdir(CLAUDECODE_PROJECTS_DIR);
       // Scan all project folders to find the one containing the requested session.
@@ -109,17 +103,17 @@ const claudecodePlugin = defineSessionStatsPlugin({
         await fs.promises.access(sessionFile);
 
         // Try to collect any subagent logs if they exist.
-        let subagentFiles: string[] = [];
+        let subagentSessionFiles: string[] = [];
         try {
           const files = await fs.promises.readdir(subagentsDir);
-          subagentFiles = files
+          subagentSessionFiles = files
             .filter((f) => f.endsWith('.jsonl'))
             .map((f) => path.join(subagentsDir, f));
         } catch {
           // No subagents subdirectory or it's empty.
         }
 
-        return { sessionFile, subagentFiles };
+        return { sessionFiles: [sessionFile], subagentSessionFiles };
       });
 
       try {
@@ -133,36 +127,55 @@ const claudecodePlugin = defineSessionStatsPlugin({
         throw error;
       }
     } catch (error: any) {
-      console.error('Error searching projects directory:', error.message);
+      this.logger.error('Error searching projects directory:', error.message);
     }
     return null;
-  },
+  }
 
   /**
    * Aggregates stats from the main session and any associated subagent logs.
    */
-  async aggregateStats(sessionData: ClaudeCodeSessionData): Promise<StatsResult> {
-    // 1. Process the main session log.
-    const mainStats = await parseJsonlFile(sessionData.sessionFile);
+  async aggregateStats(sessionData: SessionData): Promise<StatsResult> {
+    // 1. Process all main session logs.
+    const allMainStats = await Promise.all(
+      sessionData.sessionFiles.map((file) => parseJsonlFile(file)),
+    );
+    const mainStats = allMainStats.reduce<ClaudeCodeStats>(
+      (acc, curr) => {
+        combineStats(acc, curr);
+        return acc;
+      },
+      {
+        input_tokens: 0,
+        output_tokens: 0,
+        cache_creation_input_tokens: 0,
+        cache_read_input_tokens: 0,
+        models: new Set<string>(),
+      },
+    );
+
     const totalStats: ClaudeCodeStats = { ...mainStats, models: new Set(mainStats.models) };
 
     // 2. Aggregate stats for each subagent log file.
-    const subagentsStats: ClaudeCodeStats & { count: number } = {
-      input_tokens: 0,
-      output_tokens: 0,
-      cache_creation_input_tokens: 0,
-      cache_read_input_tokens: 0,
-      models: new Set(),
-      count: sessionData.subagentFiles.length,
-    };
-
     const allSubagentStats = await Promise.all(
-      sessionData.subagentFiles.map((file) => parseJsonlFile(file)),
+      sessionData.subagentSessionFiles.map((file) => parseJsonlFile(file)),
     );
-    for (const stats of allSubagentStats) {
-      combineStats(subagentsStats, stats);
-      combineStats(totalStats, stats);
-    }
+
+    const subagentsStats = allSubagentStats.reduce<ClaudeCodeStats & { count: number }>(
+      (acc, curr) => {
+        combineStats(acc, curr);
+        combineStats(totalStats, curr);
+        return acc;
+      },
+      {
+        input_tokens: 0,
+        output_tokens: 0,
+        cache_creation_input_tokens: 0,
+        cache_read_input_tokens: 0,
+        models: new Set<string>(),
+        count: sessionData.subagentSessionFiles.length,
+      },
+    );
 
     // 3. Construct the standardized StatsResult report.
     const models = Array.from(totalStats.models);
@@ -216,7 +229,5 @@ const claudecodePlugin = defineSessionStatsPlugin({
       totalStats.cache_read_input_tokens;
 
     return { models, meta, sections, summary, grandTotal };
-  },
-});
-
-export default claudecodePlugin;
+  }
+}

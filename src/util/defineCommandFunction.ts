@@ -1,4 +1,4 @@
-import { BaseArgs, BaseFlags, CommandContext, CommandFunction } from '@stricli/core';
+import type { BaseArgs, BaseFlags, CommandContext, CommandFunction } from '@stricli/core';
 
 /**
  * Identity wrapper for strongly typed command implementations.

@@ -1,3 +1,8 @@
 {
-  "extends": "@stzhu/tsconfig/tsconfig.node.json"
+  "extends": "@stzhu/tsconfig/tsconfig.node.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "customConditions": ["node", "import"]
+  }
 }

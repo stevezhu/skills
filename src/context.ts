@@ -4,11 +4,13 @@ import path from 'node:path';
 
 import type { StricliAutoCompleteContext } from '@stricli/auto-complete';
 import type { CommandContext } from '@stricli/core';
+import { createConsola, type ConsolaInstance } from 'consola';
 import { findWorkspacesRoot } from 'find-workspaces';
 
 export interface LocalContext extends CommandContext, StricliAutoCompleteContext {
   readonly process: NodeJS.Process;
   readonly workspacesRoot: string;
+  readonly logger: ConsolaInstance;
 }
 
 export function buildContext(process: NodeJS.Process): LocalContext {
@@ -23,5 +25,12 @@ export function buildContext(process: NodeJS.Process): LocalContext {
     fs,
     path,
     workspacesRoot: workspacesRoot.location,
+    logger: createConsola({
+      fancy: true,
+      formatOptions: {
+        colors: true,
+        date: true,
+      },
+    }),
   };
 }

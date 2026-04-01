@@ -20,6 +20,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "dev": "node src/bin/cli.ts",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "pnpm run format:check && oxlint --type-aware",
@@ -31,8 +32,10 @@
   "dependencies": {
     "@stricli/auto-complete": "^1.2.6",
     "@stricli/core": "^1.2.6",
+    "consola": "^3.4.2",
     "find-workspaces": "^0.3.1",
     "gray-matter": "^4.0.3",
+    "terminal-link": "^5.0.0",
     "typebox": "^1.1.6",
     "yaml": "^2.8.2"
   },
@@ -43,7 +46,6 @@
     "oxlint": "^1.52.0",
     "oxlint-tsgolint": "^0.16.0",
     "tsdown": "^0.21.1",
-    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   },
