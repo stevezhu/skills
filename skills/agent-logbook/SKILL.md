@@ -85,7 +85,7 @@ Every document **MUST** include YAML frontmatter:
 ---
 date: 2026-03-02T14:45:00Z # ISO 8601 UTC (date -u +%Y-%m-%dT%H:%M:%SZ)
 type: activity | research | decision | plan
-status: complete | in-progress | abandoned | success | failure | partial
+status: done | in-progress | abandoned | superseded
 agent: claudecode # Agent name (see Known Agent Names above)
 models: [claude-opus-4-6] # From stats script output. Default: [unknown]
 branch: <current-branch> # git branch --show-current
@@ -118,7 +118,7 @@ The script checks every `.md` file (excluding `templates/`) for:
 - **Required fields**: `date`, `type`, `status`, `agent`, `branch`, `models`
 - **`date`**: ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
 - **`type`**: one of `activity | research | decision | plan`
-- **`status`**: one of `complete | in-progress | abandoned | success | failure | partial`
+- **`status`**: one of `done | in-progress | abandoned | superseded`
 
 Exit code `0` = all pass, `1` = one or more failures.
 
