@@ -1,8 +1,6 @@
 {
   "extends": "@stzhu/tsconfig/tsconfig.node.json",
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
     "exactOptionalPropertyTypes": false,
     "types": ["node"]
   }
