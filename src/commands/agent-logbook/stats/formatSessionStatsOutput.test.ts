@@ -168,6 +168,69 @@ describe('formatSessionStatsOutput', () => {
     `);
   });
 
+  test('handles empty models array', () => {
+    const result: StatsResult = {
+      models: [],
+      sections: [
+        {
+          label: 'USAGE',
+          entries: [['Tokens', 100]],
+        },
+      ],
+      summary: null,
+      grandTotal: 100,
+    };
+
+    const output = formatSessionStatsOutput('TestAgent', 'session-123', result);
+    expect(output).toMatchInlineSnapshot(`
+      "
+      TestAgent Session Stats: session-123
+      ========================================
+      ----------------------------------------
+      USAGE:
+        Tokens               100
+      ----------------------------------------
+      GRAND TOTAL TOKENS:  100
+      ========================================
+      "
+    `);
+  });
+
+  test('handles string values in section and summary entries', () => {
+    const result: StatsResult = {
+      models: ['gpt-4'],
+      sections: [
+        {
+          label: 'INFO',
+          entries: [['Status', 'active']],
+        },
+      ],
+      summary: {
+        label: 'SUMMARY',
+        entries: [['Result', 'complete']],
+      },
+      grandTotal: 0,
+    };
+
+    const output = formatSessionStatsOutput('TestAgent', 'session-123', result);
+    expect(output).toMatchInlineSnapshot(`
+      "
+      TestAgent Session Stats: session-123
+      ========================================
+      Models Used:  gpt-4
+      ----------------------------------------
+      INFO:
+        Status               active
+      ----------------------------------------
+      SUMMARY:
+        Result               complete
+      ----------------------------------------
+      GRAND TOTAL TOKENS:  0
+      ========================================
+      "
+    `);
+  });
+
   test('handles string grandTotal', () => {
     const result: StatsResult = {
       models: ['gpt-4'],
