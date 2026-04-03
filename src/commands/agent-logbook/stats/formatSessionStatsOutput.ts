@@ -30,8 +30,10 @@ export function formatSessionStatsOutput(
         }
       }
     } else {
-      lines.push(`Models Used:  ${result.models.join(', ') || 'N/A'}`);
+      lines.push(`Models Used:  ${result.models.join(', ')}`);
     }
+  } else {
+    lines.push('Models Used:  unknown');
   }
 
   // Display any extra metadata (non-model specific).

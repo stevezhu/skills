@@ -17,8 +17,9 @@ export const FrontmatterSchema = Type.Object(
       Type.Literal('plan'),
     ]),
     status: Type.Union([
-      Type.Literal('done'),
+      Type.Literal('todo'),
       Type.Literal('in-progress'),
+      Type.Literal('done'),
       Type.Literal('abandoned'),
       Type.Literal('superseded'),
     ]),
