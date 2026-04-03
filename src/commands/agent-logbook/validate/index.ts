@@ -5,7 +5,7 @@ import matter from 'gray-matter';
 import { Compile } from 'typebox/compile';
 import yaml from 'yaml';
 
-import type { LocalContext } from '#context.js';
+import type { LocalContext } from '#/context.js';
 
 import { FrontmatterSchema } from './frontmatterSchema.js';
 
