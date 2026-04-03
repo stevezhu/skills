@@ -1,6 +1,5 @@
-import { describe, expect, test } from 'vitest';
-
 import { Compile } from 'typebox/compile';
+import { describe, expect, test } from 'vitest';
 
 import { FrontmatterSchema } from './frontmatterSchema.js';
 
