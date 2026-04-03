@@ -186,6 +186,7 @@ describe('formatSessionStatsOutput', () => {
       "
       TestAgent Session Stats: session-123
       ========================================
+      Models Used:  unknown
       ----------------------------------------
       USAGE:
         Tokens               100
