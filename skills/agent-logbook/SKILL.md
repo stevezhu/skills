@@ -85,7 +85,7 @@ Every document **MUST** include YAML frontmatter:
 ---
 date: 2026-03-02T14:45:00Z # ISO 8601 UTC (date -u +%Y-%m-%dT%H:%M:%SZ)
 type: activity | research | decision | plan
-status: done | in-progress | abandoned | superseded
+status: todo | done | in-progress | abandoned | superseded
 agent: claudecode # Agent name (see Known Agent Names above)
 models: [claude-opus-4-6] # From stats script output. Default: [unknown]
 branch: <current-branch> # git branch --show-current
