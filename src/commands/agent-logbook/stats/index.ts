@@ -1,5 +1,5 @@
-import type { LocalContext } from '#context.js';
-import { defineCommandFunction } from '#util/defineCommandFunction.js';
+import type { LocalContext } from '#/context.js';
+import { defineCommandFunction } from '#/util/defineCommandFunction.js';
 
 import type { SessionStatsPlugin } from './defineSessionStatsPlugin.js';
 import { formatSessionStatsOutput } from './formatSessionStatsOutput.js';

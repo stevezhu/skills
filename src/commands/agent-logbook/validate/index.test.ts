@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, Mock, vi } from 'vitest';
 
-import type { LocalContext } from '#context.js';
+import type { LocalContext } from '#/context.js';
 
 import { validate } from './index.js';
 
