@@ -10,10 +10,10 @@ pnpm add @stzhu/skills
 
 ## Usage
 
-The CLI is available as `stz-skills`. You can also run it via `pnpx`:
+The CLI is available as `stz-skills`. You can also run it via `pnpm dlx`:
 
 ```bash
-pnpx @stzhu/skills <command>
+pnpm dlx @stzhu/skills <command>
 ```
 
 ### Agent Logbook
@@ -26,13 +26,13 @@ Retrieve token usage and model information for a specific agent session.
 
 ```bash
 # For Claude Code
-pnpx @stzhu/skills agent-logbook stats <session-id> --agent claudecode
+pnpm dlx @stzhu/skills agent-logbook stats <session-id> --agent claudecode
 
 # For Gemini CLI
-pnpx @stzhu/skills agent-logbook stats <session-id> --agent geminicli
+pnpm dlx @stzhu/skills agent-logbook stats <session-id> --agent geminicli
 
 # For Codex
-pnpx @stzhu/skills agent-logbook stats <session-id> --agent codex
+pnpm dlx @stzhu/skills agent-logbook stats <session-id> --agent codex
 ```
 
 Codex stats read the requested session's rollout JSONL from `~/.codex/sessions/`
@@ -48,10 +48,10 @@ Validate the filenames and frontmatter of your logbook entries.
 
 ```bash
 # Validate all files in .agent-logbook/
-pnpx @stzhu/skills agent-logbook validate
+pnpm dlx @stzhu/skills agent-logbook validate
 
 # Validate a specific file or directory
-pnpx @stzhu/skills agent-logbook validate .agent-logbook/activity/
+pnpm dlx @stzhu/skills agent-logbook validate .agent-logbook/activity/
 ```
 
 ## License

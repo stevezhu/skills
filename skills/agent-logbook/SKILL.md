@@ -72,13 +72,13 @@ For other agents, use a concise lowercase identifier (e.g., `copilot`, `aider`).
 
 ```bash
 # Claude
-pnpx @stzhu/skills agent-logbook stats <session-id> --agent claudecode
+pnpm dlx @stzhu/skills agent-logbook stats <session-id> --agent claudecode
 
 # Gemini
-pnpx @stzhu/skills agent-logbook stats <session-id> --agent geminicli
+pnpm dlx @stzhu/skills agent-logbook stats <session-id> --agent geminicli
 
 # Codex (CODEX_THREAD_ID is the session ID when available)
-pnpx @stzhu/skills agent-logbook stats <session-id> --agent codex
+pnpm dlx @stzhu/skills agent-logbook stats <session-id> --agent codex
 ```
 
 Codex reads local rollout files under `CODEX_HOME` (default `~/.codex`), including
@@ -115,10 +115,10 @@ Run the bundled script to catch missing fields, wrong enum values, bad date form
 
 ```bash
 # Validate all logbook docs (defaults to .agent-logbook/)
-pnpx @stzhu/skills agent-logbook validate
+pnpm dlx @stzhu/skills agent-logbook validate
 
 # Validate a specific file or subdirectory
-pnpx @stzhu/skills agent-logbook validate .agent-logbook/activity/
+pnpm dlx @stzhu/skills agent-logbook validate .agent-logbook/activity/
 ```
 
 The script checks every `.md` file (excluding `templates/`) for:
