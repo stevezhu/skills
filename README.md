@@ -30,7 +30,17 @@ pnpx @stzhu/skills agent-logbook stats <session-id> --agent claudecode
 
 # For Gemini CLI
 pnpx @stzhu/skills agent-logbook stats <session-id> --agent geminicli
+
+# For Codex
+pnpx @stzhu/skills agent-logbook stats <session-id> --agent codex
 ```
+
+Codex stats read the requested session's rollout JSONL from `~/.codex/sessions/`
+or `~/.codex/archived_sessions/`, respecting `CODEX_HOME` when set. Inside Codex,
+use `CODEX_THREAD_ID` as the session ID when available. The report uses the latest
+cumulative token counts and lists models recorded in turn contexts. Cached input
+and reasoning tokens are included in input and output, respectively; they are not
+added again to the grand total. Separate subagent sessions are not included.
 
 #### Validate Logbook Files
 

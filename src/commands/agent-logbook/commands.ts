@@ -10,7 +10,7 @@ export const statsCommand = buildCommand({
       agent: {
         kind: 'enum',
         brief: 'The agent to get stats for',
-        values: ['claudecode', 'geminicli'],
+        values: ['claudecode', 'codex', 'geminicli'],
       },
     },
     positional: {

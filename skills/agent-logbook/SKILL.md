@@ -45,7 +45,7 @@ mkdir -p .agent-logbook/{activity,research,decisions,plans,templates}
 **ALWAYS generate the UTC timestamp via shell — never guess or use local time.**
 
 - **Format**: `YYYY-MM-DD_HHMMSSZ_[agent]_[slug].md`
-- **Agent**: Use your agent name (e.g., `claudecode`, `cursor`, `geminicli`).
+- **Agent**: Use your agent name (e.g., `claudecode`, `codex`, `cursor`, `geminicli`).
 - **Slug**: 3–6 words in `kebab-case` describing the **goal** (e.g., `fix-auth-refresh`).
 
 ```bash
@@ -60,6 +60,7 @@ Use these exact names in the `agent` field and filename:
 | Agent        | Description                                                     |
 | ------------ | --------------------------------------------------------------- |
 | `claudecode` | Claude Code CLI (Anthropic)                                     |
+| `codex`      | Codex CLI and desktop app (OpenAI)                              |
 | `cursor`     | Cursor IDE AI (supports auto mode — check active model setting) |
 | `geminicli`  | Gemini CLI (supports auto mode — check active model setting)    |
 
@@ -75,7 +76,15 @@ pnpx @stzhu/skills agent-logbook stats <session-id> --agent claudecode
 
 # Gemini
 pnpx @stzhu/skills agent-logbook stats <session-id> --agent geminicli
+
+# Codex (CODEX_THREAD_ID is the session ID when available)
+pnpx @stzhu/skills agent-logbook stats <session-id> --agent codex
 ```
+
+Codex reads local rollout files under `CODEX_HOME` (default `~/.codex`), including
+active and archived sessions. Stats cover the requested session only. Cached input
+and reasoning tokens are subsets of input and output, so do not add them again to
+the grand total.
 
 If you do not have a session ID or the script fails, default `models` to `[unknown]` and omit `sessionId`.
 
