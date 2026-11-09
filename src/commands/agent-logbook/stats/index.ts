@@ -4,17 +4,19 @@ import { defineCommandFunction } from '#/util/defineCommandFunction.js';
 import type { SessionStatsPlugin } from './defineSessionStatsPlugin.js';
 import { formatSessionStatsOutput } from './formatSessionStatsOutput.js';
 import claudecodePlugin from './plugins/claudecode.js';
+import codexPlugin from './plugins/codex.js';
 import geminicliPlugin from './plugins/geminicli.js';
 
 /** Arguments for the stats command. */
 export type StatsCommandFlags = {
   /** The agent to retrieve stats for. */
-  agent: 'claudecode' | 'geminicli';
+  agent: 'claudecode' | 'codex' | 'geminicli';
 };
 
 /** Mapping of agent names to their respective stats plugins. */
 const plugins: Record<StatsCommandFlags['agent'], SessionStatsPlugin> = {
   claudecode: claudecodePlugin,
+  codex: codexPlugin,
   geminicli: geminicliPlugin,
 };
 
@@ -30,7 +32,7 @@ export const stats = defineCommandFunction(async function stats(
   // 1. Basic input validation
   if (!agent || !sessionId) {
     console.error('Usage: session-stats.js <agent> <session-id>');
-    console.error('Agents: claudecode, geminicli');
+    console.error('Agents: claudecode, codex, geminicli');
     process.exit(1);
   }
 
@@ -38,7 +40,7 @@ export const stats = defineCommandFunction(async function stats(
   const plugin = plugins[agent];
   if (!plugin) {
     console.error(`Unknown agent: ${agent}`);
-    console.error('Available agents: claudecode, geminicli');
+    console.error('Available agents: claudecode, codex, geminicli');
     process.exit(1);
   }
 
