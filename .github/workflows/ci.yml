@@ -8,4 +8,10 @@ on:
 
 jobs:
   ci:
-    uses: stevezhu/actions/.github/workflows/ci-node.yaml@v1
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: stevezhu/actions/ci-node@v3
