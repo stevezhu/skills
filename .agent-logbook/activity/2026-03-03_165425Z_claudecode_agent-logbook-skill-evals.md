@@ -34,11 +34,12 @@ The `agent-logbook` skill was previously created (and renamed from `agent-docs`)
    - Content checks: key facts from the prompt appear in the document body
 
 3. **Graded all 6 runs** via parallel grader subagents. Results:
-   | Eval | With Skill | Without Skill |
-   |------|-----------|---------------|
-   | 0 — activity log | 7/7 (100%) | 2/7 (29%) |
-   | 1 — ADR | 8/8 (100%) | 5/8 (63%) |
-   | 2 — research | 8/8 (100%) | 5/8 (63%) |
+
+   | Eval             | With Skill | Without Skill |
+   | ---------------- | ---------- | ------------- |
+   | 0 — activity log | 7/7 (100%) | 2/7 (29%)     |
+   | 1 — ADR          | 8/8 (100%) | 5/8 (63%)     |
+   | 2 — research     | 8/8 (100%) | 5/8 (63%)     |
 
 4. **Reorganized workspace** into `eval-N/config/run-1/` structure to match aggregate_benchmark script expectations.
 
